@@ -1,6 +1,11 @@
 import React from "react";
 import "../../../styles/Navbar.css";
 import logo from "../../../assets/logo.svg";
+import menuicon from "../../../assets/menu.svg";
+import topicon from "../../../assets/ic_twotone-bar-chart (1).svg";
+import exiticon from "../../../assets/Vector.svg";
+import hsicon from "../../../assets/ic_twotone-bar-chart.svg";
+import profileicon from "../../../assets/ic_baseline-account-circle.svg";
 
 //! MUI dropdown
 import Button from "@mui/material/Button";
@@ -8,6 +13,16 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { useNavigate } from "react-router-dom";
+import Box from "@mui/material/Box";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import Divider from "@mui/material/Divider";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MailIcon from "@mui/icons-material/Mail";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -20,6 +35,28 @@ const Navbar = () => {
     setAnchorEl(null);
   };
 
+  const [open2, setOpen] = React.useState(false);
+  const toggleDrawer = (newOpen: boolean) => () => {
+    setOpen(newOpen);
+  };
+
+  const DrawerList = (
+    <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
+      <List>
+        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+          <ListItem key={text} disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+    </Box>
+  );
   return (
     <div className="mainBlock">
       <img
@@ -97,7 +134,7 @@ const Navbar = () => {
               <path d="M15.4995 13.9995H14.7095L14.4295 13.7295C15.0544 13.0035 15.5112 12.1483 15.767 11.2251C16.0229 10.3019 16.0715 9.33364 15.9095 8.38949C15.4395 5.60949 13.1195 3.38949 10.3195 3.04949C9.3351 2.92495 8.33527 3.02726 7.39651 3.34858C6.45775 3.66989 5.60493 4.20171 4.90332 4.90332C4.20171 5.60493 3.66989 6.45775 3.34858 7.39651C3.02726 8.33527 2.92495 9.3351 3.04949 10.3195C3.38949 13.1195 5.60949 15.4395 8.38949 15.9095C9.33364 16.0715 10.3019 16.0229 11.2251 15.767C12.1483 15.5112 13.0035 15.0544 13.7295 14.4295L13.9995 14.7095V15.4995L18.2495 19.7495C18.6595 20.1595 19.3295 20.1595 19.7395 19.7495C20.1495 19.3395 20.1495 18.6695 19.7395 18.2595L15.4995 13.9995ZM9.49949 13.9995C7.00949 13.9995 4.99949 11.9895 4.99949 9.49949C4.99949 7.00949 7.00949 4.99949 9.49949 4.99949C11.9895 4.99949 13.9995 7.00949 13.9995 9.49949C13.9995 11.9895 11.9895 13.9995 9.49949 13.9995Z" />
             </svg>
           </div>
-          <div>
+          <div id="mmr">
             MMR
             <br />
             1200
@@ -130,12 +167,94 @@ const Navbar = () => {
                   },
                 }}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                <MenuItem onClick={handleClose}>
+                  <div className="profileDrop">
+                    <img src={profileicon} alt="error" />
+                    Профиль
+                  </div>
+                </MenuItem>
+                <MenuItem onClick={handleClose}>
+                  <div className="profileDrop">
+                    <img src={topicon} alt="error" />
+                    Топ
+                  </div>
+                </MenuItem>
+                <MenuItem onClick={handleClose}>
+                  <div className="profileDrop">
+                    <img src={hsicon} alt="error" />
+                    История матчей
+                  </div>
+                </MenuItem>
+                <MenuItem onClick={handleClose}>
+                  <div className="profileDrop">Выйти</div>
+                </MenuItem>
               </Menu>
             </div>
           </div>
+        </div>
+        <div className="mainBlock_drawer">
+          <Button onClick={toggleDrawer(true)}>
+            <img src={menuicon} alt="error" style={{ width: "2.6rem" }} />
+          </Button>
+          <Drawer anchor={"right"} open={open2} onClose={toggleDrawer(false)}>
+            <Box sx={{ width: 250 }} role="presentation">
+              <List>
+                <div className="drawerSearch">
+                  <input
+                    type="text"
+                    placeholder="Поиск"
+                    className="nav_search"
+                  />
+                </div>
+              </List>
+            </Box>
+            <Divider />
+            <Box
+              sx={{ width: 250 }}
+              role="presentation"
+              onClick={toggleDrawer(false)}
+            >
+              <List>
+                <ListItemButton>1200 MMR</ListItemButton>
+              </List>
+            </Box>
+            <Box
+              sx={{ width: 250 }}
+              role="presentation"
+              onClick={toggleDrawer(false)}
+            >
+              <List>
+                <ListItemButton>Профиль</ListItemButton>
+              </List>
+            </Box>
+            <Box
+              sx={{ width: 250 }}
+              role="presentation"
+              onClick={toggleDrawer(false)}
+            >
+              <List>
+                <ListItemButton>Топ</ListItemButton>
+              </List>
+            </Box>
+            <Box
+              sx={{ width: 250 }}
+              role="presentation"
+              onClick={toggleDrawer(false)}
+            >
+              <List>
+                <ListItemButton>История матчей</ListItemButton>
+              </List>
+            </Box>
+            <Box
+              sx={{ width: 250 }}
+              role="presentation"
+              onClick={toggleDrawer(false)}
+            >
+              <List>
+                <ListItemButton>Выйти</ListItemButton>
+              </List>
+            </Box>
+          </Drawer>
         </div>
       </div>
     </div>
