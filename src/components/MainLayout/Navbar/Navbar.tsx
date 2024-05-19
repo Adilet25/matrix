@@ -3,7 +3,6 @@ import "../../../styles/Navbar.css";
 import logo from "../../../assets/logo.svg";
 import menuicon from "../../../assets/menu.svg";
 import topicon from "../../../assets/ic_twotone-bar-chart (1).svg";
-import exiticon from "../../../assets/Vector.svg";
 import hsicon from "../../../assets/ic_twotone-bar-chart.svg";
 import profileicon from "../../../assets/ic_baseline-account-circle.svg";
 
@@ -17,12 +16,7 @@ import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -40,23 +34,6 @@ const Navbar = () => {
     setOpen(newOpen);
   };
 
-  const DrawerList = (
-    <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
-      <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-    </Box>
-  );
   return (
     <div className="mainBlock">
       <img
@@ -69,7 +46,7 @@ const Navbar = () => {
       />
       <div className="mainBlock_opt">
         <div className="mainBlock_nav">
-          <div>
+          <div onClick={() => navigate("/")}>
             <svg
               viewBox="0 0 36 33"
               fill="none"
@@ -80,7 +57,7 @@ const Navbar = () => {
             </svg>
             <p>ГЛАВНАЯ</p>
           </div>
-          <div>
+          <div onClick={() => navigate("/playground")}>
             <svg
               viewBox="0 0 36 36"
               fill="none"
@@ -91,7 +68,7 @@ const Navbar = () => {
             </svg>
             <p>МАТЧИ</p>
           </div>
-          <div>
+          <div onClick={() => navigate("/login")}>
             <svg
               viewBox="0 0 36 36"
               xmlns="http://www.w3.org/2000/svg"
@@ -101,7 +78,7 @@ const Navbar = () => {
             </svg>
             <p>ТУРНИРЫ</p>
           </div>
-          <div>
+          <div onClick={() => navigate("/register")}>
             <svg
               viewBox="0 0 36 36"
               fill="#20bf55"

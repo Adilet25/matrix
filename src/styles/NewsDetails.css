@@ -1,0 +1,15 @@
+.detailsBlock {
+  margin-top: 5rem;
+  background-color: #18181a;
+  padding: 2rem;
+}
+.detailBlock_title {
+  margin-bottom: 2rem;
+}
+.detailBlock_img {
+  width: 100%;
+}
+.detailBlock_desc {
+  margin-top: 2rem;
+  font-size: 20px;
+}
