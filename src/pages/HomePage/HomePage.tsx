@@ -9,7 +9,7 @@ const HomePage = () => {
       <MainSection />
       <TableSection />
       <TournamentSection />
-      <NewsSection news />
+      <NewsSection />
     </div>
   );
 };

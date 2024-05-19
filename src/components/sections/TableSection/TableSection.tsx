@@ -1,7 +1,6 @@
 import "../../../styles/TableSection.css";
-type Props = {};
 
-const TableSection = (props: Props) => {
+const TableSection = () => {
   return (
     <div className="containers">
       <div className="tableSec">

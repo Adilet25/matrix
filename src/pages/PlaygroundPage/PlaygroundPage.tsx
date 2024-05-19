@@ -1,11 +1,5 @@
-import React from 'react'
+const PlaygroundPage = () => {
+  return <div>PlaygroundPage</div>;
+};
 
-type Props = {}
-
-const PlaygroundPage = (props: Props) => {
-  return (
-    <div>PlaygroundPage</div>
-  )
-}
-
-export default PlaygroundPage
+export default PlaygroundPage;
