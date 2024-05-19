@@ -10,7 +10,7 @@
   display: flex;
   flex-direction: row;
   height: 4rem;
-  color: #606060;
+  color: #606060 !important;
 }
 .mainBlock_opt {
   display: flex;
@@ -69,7 +69,7 @@
   width: 11rem;
   height: 2rem;
   background-color: #1d1d21;
-  color: #787878;
+  color: #787878 !important;
   padding-left: 2rem;
   border: none;
   transition: 0.3s;
@@ -94,4 +94,58 @@
   fill: #787878;
   width: 1.6rem;
   height: 1.6rem;
+}
+.MuiDrawer-paperAnchorRight {
+  background-color: #101011 !important;
+  color: #979797 !important;
+}
+.drawerSearch {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.mainBlock_drawer {
+  display: none;
+}
+.profileDrop {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.profileDrop > img {
+  width: 1.5rem;
+  margin-right: 10px;
+}
+
+@media screen and (max-width: 870px) {
+  .mainBlock_info {
+    display: none;
+  }
+  .mainBlock_drawer {
+    display: block;
+  }
+}
+@media screen and (max-width: 570px) {
+  .mainBlock_nav {
+    margin-left: 0rem;
+  }
+  .mainBlock_nav > div {
+    font-size: 12px;
+    margin-right: 0;
+  }
+  .navIcon {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+}
+@media screen and (max-width: 443px) {
+  .mainBlock_nav > div {
+    font-size: 8px;
+    width: 3rem;
+  }
+  .navIcon {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
 }

@@ -1,11 +1,17 @@
-import React from 'react'
+import NewsSection from "../../components/sections/NewsSection/NewsSection";
+import TableSection from "../../components/sections/TableSection/TableSection";
+import TournamentSection from "../../components/sections/TournamentSection/TournamentSection";
+import MainSection from "../../components/sections/homesec/MainSection";
 
-type Props = {}
-
-const HomePage = (props: Props) => {
+const HomePage = () => {
   return (
-    <div>HomePage</div>
-  )
-}
+    <div>
+      <MainSection />
+      <TableSection />
+      <TournamentSection />
+      <NewsSection news />
+    </div>
+  );
+};
 
-export default HomePage
+export default HomePage;
