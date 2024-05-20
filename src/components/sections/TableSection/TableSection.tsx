@@ -7,7 +7,7 @@ const TableSection = () => {
         <p className="tablename">Таблица</p>
         <div className="table1">
           <p>Топ программисты</p>
-          <div>
+          <div className="tableSec_list">
             <ol>
               <li>
                 Adilet B. SCA-22A <span className="yellowmmr">1200MMR</span>

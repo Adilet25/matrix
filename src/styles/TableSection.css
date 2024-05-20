@@ -24,13 +24,13 @@
   height: 2rem;
 }
 
-li {
+.tableSec_list > ol li {
   list-style-type: decimal-leading-zero;
   list-style-position: inside;
   width: 100%;
   height: 2rem;
 }
-ol li::marker {
+.tableSec_list > ol li::marker {
   color: #ffd644;
 }
 .yellowmmr {
