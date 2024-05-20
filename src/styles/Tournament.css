@@ -1,0 +1,65 @@
+.tourBlock {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: #f8f8f815;
+  padding: 1rem;
+  margin-top: 3rem;
+  margin-bottom: 5rem;
+  height: 40vh;
+}
+.tourBlock > p {
+  width: 40%;
+}
+.tourBlock > div {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+}
+.tourBlock > div > textarea {
+  font-family: "Source Code Pro", monospace;
+  background-color: #f8f8f815;
+  padding-left: 10px;
+  padding-top: 5px;
+  width: 98%;
+  height: 100%;
+  color: white;
+  resize: none;
+}
+.tourBlock > div > textarea:focus-visible {
+  outline: none;
+}
+.tourBlock > div > button {
+  background-color: #f8f8f815;
+  padding: 0.8rem;
+  border: none;
+  color: white;
+  transition: 0.5s;
+  margin-top: 1rem;
+  width: 100%;
+}
+.tourBlock > div > button:hover {
+  background-color: #f8f8f842;
+}
+@media screen and (max-width: 1024px) {
+  .tourBlock {
+    flex-direction: column-reverse;
+    height: auto;
+  }
+  .tourBlock > p {
+    width: 100%;
+  }
+  .tourBlock > div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .tourBlock > div > textarea {
+    height: 10rem;
+  }
+  .tourBlock > div > button {
+
+    margin-bottom: 1rem;
+
+  }
+}
