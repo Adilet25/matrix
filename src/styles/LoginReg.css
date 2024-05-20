@@ -133,16 +133,18 @@
 }
 
 /* Reg end ------------------------------------------------------------------------------------------------------------------------------------------------------------------ */
-
-@media screen and (max-width: 850px) {
-  .loginMain_panel {
-    width: 20rem;
-  }
+@media screen and (max-width: 1024px) {
   .loginMain_block {
     padding: 0;
     align-items: center;
     justify-content: center;
   }
+}
+@media screen and (max-width: 850px) {
+  .loginMain_panel {
+    width: 20rem;
+  }
+
   .regMain_showhide,
   .loginMain_showhide {
     left: 23rem;
@@ -170,6 +172,12 @@
   }
 }
 @media screen and (max-width: 380px) {
+  .loginMain_frgt,
+  .loginMain_voyt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
   .regMain_showhide,
   .loginMain_showhide {
     left: 16rem;
