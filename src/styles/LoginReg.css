@@ -1,8 +1,8 @@
 /* Login ------------------------------------------------------------------------------------------------------------------------------------------------------------------ */
 
 .loginMain {
-  background: url("/src/assets/Rectangle\ 895\ \(1\).png"),
-    url("/src/assets/wallpaper1_large\ 1.png");
+  background: url("https://i.ibb.co/HxcxPWm/Rectangle-895-1.png"),
+    url("https://i.ibb.co/HYD8SDF/wallpaper1-large-1.png");
   background-repeat: no-repeat;
   background-size: cover;
   height: 100vh;
