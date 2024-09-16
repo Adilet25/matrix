@@ -1,20 +1,22 @@
 .mainSec {
-  background-image: url("https://i.ibb.co/Np09fdy/image-4.png");
+  /* background-image: url("https://i.ibb.co/Np09fdy/image-4.png"); */
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  height: 60vh;
 }
 .mainSec_info {
+  position: absolute;
+  z-index: 2;
   font-weight: 400;
   font-size: 60px;
   color: #f8f8f8;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 60vh;
   text-align: center;
 }
 .mainSec_btn {
@@ -35,4 +37,35 @@
 }
 #green {
   color: #20bf55;
+}
+
+/* Tables */
+
+.tables {
+  display: flex;
+  overflow-x: hidden;
+  z-index: 1;
+}
+.tables table {
+  /* width: 100%; */
+  border-spacing: 2px;
+  width: max-content;
+  table-layout: fixed;
+}
+.tables tr {
+}
+.tables td {
+  width: 70px !important;
+  height: 70px;
+  background-color: #000000;
+  transition: 2s;
+  background-size: 400% 400%;
+}
+.tables td:hover {
+  transition: 0s;
+  background-color: #00fd94;
+}
+.tables td:active {
+  transition: 1s;
+  background-color: #008bfd !important;
 }
