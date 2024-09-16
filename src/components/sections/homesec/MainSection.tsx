@@ -15,7 +15,7 @@ const MainSection = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [widthW]);
-  const getCellsPerRow = (width: number) => {
+  const getCellsPerRow = (_width: number) => {
     return widthW / 70; //? The amount x
   };
   const [cellsPerRow, setCellsPerRow] = useState<number>(
@@ -25,7 +25,7 @@ const MainSection = () => {
     const data: TableRowData[] = [];
     for (let i = 0; i < 10; i++) {
       //? The 10 is amount y
-      data.push(Array.from({ length: numCells }, (_, index) => ``));
+      data.push(Array.from({ length: numCells }, (_, _index) => ``));
     }
     return data;
   };

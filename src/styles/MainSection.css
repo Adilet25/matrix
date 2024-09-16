@@ -52,8 +52,7 @@
   width: max-content;
   table-layout: fixed;
 }
-.tables tr {
-}
+
 .tables td {
   width: 70px !important;
   height: 70px;
