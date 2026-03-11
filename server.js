@@ -37,6 +37,7 @@ const faceitRoutes = require("./routes/faceit");
 const topPlayersRoutes = require("./routes/topPlayers");
 
 // OAuth login
+const faceitOAuthRoutes = require("./routes/faceitOAuth");
 app.use("/auth/faceit", faceitOAuthRoutes);
 
 // API routes

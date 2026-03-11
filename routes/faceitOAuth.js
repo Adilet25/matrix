@@ -8,11 +8,11 @@ function buildAuthorizeUrl(state) {
     client_id: process.env.FACEIT_CLIENT_ID,
     redirect_uri: process.env.FACEIT_REDIRECT_URI,
     response_type: "code",
-    scope: "openid",
+    scope: "openid profile email membership",
     state,
   });
 
-  return `https://api.faceit.com/oauth/authorize?${params.toString()}`;
+  return `https://accounts.faceit.com?${params.toString()}`;
 }
 
 router.get("/login", (req, res) => {
@@ -37,52 +37,52 @@ router.get("/callback", async (req, res) => {
   }
 
   try {
+    const basicAuth = Buffer.from(
+      `${process.env.FACEIT_CLIENT_ID}:${process.env.FACEIT_CLIENT_SECRET}`
+    ).toString("base64");
+
     const tokenParams = new URLSearchParams({
       grant_type: "authorization_code",
       code,
-      client_id: process.env.FACEIT_CLIENT_ID,
-      client_secret: process.env.FACEIT_CLIENT_SECRET,
       redirect_uri: process.env.FACEIT_REDIRECT_URI,
     });
 
     const tokenResponse = await axios.post(
-      "https://api.faceit.com/oauth/token",
+      "https://api.faceit.com/auth/v1/oauth/token",
       tokenParams.toString(),
       {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Basic ${basicAuth}`,
         },
       }
     );
 
-    const { access_token, refresh_token } = tokenResponse.data;
+    const { access_token } = tokenResponse.data;
 
-    const meResponse = await axios.get("https://open.faceit.com/data/v4/me", {
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-      },
-    });
+    const userInfoResponse = await axios.get(
+      "https://api.faceit.com/auth/v1/resources/userinfo",
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
 
-    const data = meResponse.data;
-    const cs2 = data.games?.cs2 || data.games?.csgo || {};
+    const profile = userInfoResponse.data;
 
-    let user = await User.findOne({ faceitId: data.player_id });
+    let user = await User.findOne({ faceitId: profile.sub });
 
     if (!user) {
       user = new User({
-        nickname: data.nickname,
-        faceitId: data.player_id,
-        avatar: data.avatar || "",
-        country: (data.country || "unknown").toLowerCase(),
-        elo: cs2.faceit_elo || 0,
-        level: cs2.skill_level || 0,
+        nickname: profile.nickname || profile.given_name || "FaceitUser",
+        faceitId: profile.sub,
+        avatar: profile.picture || "",
+        country: (profile.locale || "unknown").toLowerCase(),
       });
     } else {
-      user.nickname = data.nickname;
-      user.avatar = data.avatar || user.avatar;
-      user.country = (data.country || user.country || "unknown").toLowerCase();
-      user.elo = cs2.faceit_elo || user.elo || 0;
-      user.level = cs2.skill_level || user.level || 0;
+      user.nickname = profile.nickname || user.nickname;
+      user.avatar = profile.picture || user.avatar;
     }
 
     await user.save();
@@ -109,6 +109,7 @@ router.get("/me", async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
+
     res.json(user);
   } catch (err) {
     res.status(500).json({ error: err.message });
