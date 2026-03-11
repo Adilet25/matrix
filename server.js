@@ -2,43 +2,54 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const session = require("express-session");
-const passport = require("passport");
 require("dotenv").config();
 
 const app = express();
-app.use(cors());
+
+app.set("trust proxy", 1);
+
+app.use(cors({
+  origin: process.env.FRONTEND_URL,
+  credentials: true,
+}));
+
 app.use(express.json());
 
-// Сессии
 app.use(session({
   secret: process.env.SESSION_SECRET || "matrixsecret",
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+  },
 }));
 
-// Passport
-app.use(passport.initialize());
-app.use(passport.session());
-
-// Подключение MongoDB
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.log("MongoDB connection error:", err));
 
-// Роуты
-const steamAuth = require("./routes/steamAuth");
+// routes
+const faceitOAuthRoutes = require("./routes/faceitOAuth");
 const faceitRoutes = require("./routes/faceit");
 const topPlayersRoutes = require("./routes/topPlayers");
-const faceitAuthRoutes = require("./routes/faceitAuth");
 
-app.use("/auth/faceit", faceitAuthRoutes);
-app.use("/auth", steamAuth);
+// OAuth login
+app.use("/auth/faceit", faceitOAuthRoutes);
+
+// API routes
 app.use("/api/faceit", faceitRoutes);
 app.use("/api/top-players", topPlayersRoutes);
 
-// Тест
-app.get("/", (req, res) => res.send("API running"));
+// test
+app.get("/", (req, res) => {
+  res.send("API running");
+});
 
-app.listen(process.env.PORT || 5000, () =>
-  console.log(`Server running on port ${process.env.PORT || 5000}`)
-);
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

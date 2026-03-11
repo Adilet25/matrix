@@ -4,7 +4,7 @@ const UserSchema = new mongoose.Schema({
   steamId: String,
   nickname: String,
   avatar: String,
-  faceitId: String,
+  faceitId: { type: String, unique: true },
   elo: Number,
   level: Number,
   country: String,
