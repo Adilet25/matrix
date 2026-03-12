@@ -8,27 +8,27 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const fetchMe = async () => {
-    try {
-      const response = await fetch(`${API_URL}/auth/faceit/me`, {
-        method: "GET",
-        credentials: "include",
-      });
+  //   const fetchMe = async () => {
+  //     try {
+  //       const response = await fetch(`${API_URL}/auth/faceit/me`, {
+  //         method: "GET",
+  //         credentials: "include",
+  //       });
 
-      if (!response.ok) {
-        setUser(null);
-        return;
-      }
+  //       if (!response.ok) {
+  //         setUser(null);
+  //         return;
+  //       }
 
-      const data = await response.json();
-      setUser(data);
-    } catch (error) {
-      console.error("Fetch me error:", error);
-      setUser(null);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //       const data = await response.json();
+  //       setUser(data);
+  //     } catch (error) {
+  //       console.error("Fetch me error:", error);
+  //       setUser(null);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
   const logout = async () => {
     try {
@@ -42,9 +42,9 @@ export function AuthProvider({ children }) {
     }
   };
 
-  useEffect(() => {
-    fetchMe();
-  }, []);
+  //   useEffect(() => {
+  //     fetchMe();
+  //   }, []);
 
   return (
     <AuthContext.Provider
@@ -52,7 +52,7 @@ export function AuthProvider({ children }) {
         user,
         setUser,
         loading,
-        fetchMe,
+        // fetchMe,
         logout,
         apiUrl: API_URL,
       }}

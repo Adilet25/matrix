@@ -6,3 +6,7 @@
   padding: 0;
   color: white;
 }
+.containers {
+  max-width: 95%;
+  margin: 0 auto;
+}

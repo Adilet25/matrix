@@ -9,9 +9,9 @@ import { useAuth } from "../../context/AuthContext";
 const HomePage = () => {
   const { user, loading } = useAuth();
 
-  if (loading) {
-    return <p style={{ padding: "24px" }}>Loading...</p>;
-  }
+  // if (loading) {
+  //   return <p style={{ padding: "24px" }}>Loading...</p>;
+  // }
   return (
     <div className="">
       {user ? (

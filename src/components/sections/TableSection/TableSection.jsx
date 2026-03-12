@@ -14,6 +14,10 @@ const TableSection = () => {
   const [region, setRegion] = useState("EU");
   const [country, setCountry] = useState("kg");
 
+  const [statsLimit, setStatsLimit] = useState(30);
+  const [playerStats, setPlayerStats] = useState(null);
+  const [loadingStats, setLoadingStats] = useState(false);
+
   useEffect(() => {
     const fetchTopPlayers = async () => {
       setLoadingTop(true);
@@ -40,12 +44,39 @@ const TableSection = () => {
     fetchTopPlayers();
   }, [region, country]);
 
+  useEffect(() => {
+    const fetchPlayerStats = async () => {
+      if (!user?.faceitId) return;
+
+      setLoadingStats(true);
+
+      try {
+        const response = await fetch(
+          `${API_URL}/api/player-stats/${user.faceitId}?limit=${statsLimit}&gameId=cs2`,
+          {
+            credentials: "include",
+          },
+        );
+
+        const data = await response.json();
+        setPlayerStats(data);
+      } catch (error) {
+        console.error("Player stats fetch error:", error);
+        setPlayerStats(null);
+      } finally {
+        setLoadingStats(false);
+      }
+    };
+
+    fetchPlayerStats();
+  }, [user?.faceitId, statsLimit]);
+
   return (
     <div className="containers">
       <p className="tablename">Таблица</p>
 
       <div className="tableSec">
-        <div className="table0">
+        <div className="table0 tableshab">
           <img
             src={user?.avatar || pro}
             alt="profile"
@@ -59,9 +90,69 @@ const TableSection = () => {
           <p>Level: {user?.level ?? "-"}</p>
         </div>
 
-        <div className="table01">STATA DIAGRAM LAST 5 GAMES</div>
+        <div className="table01 tableshab">
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              flexWrap: "wrap",
+              gap: "10px",
+              marginBottom: "12px",
+            }}
+          >
+            <p style={{ margin: 0 }}>Статы за последние матчи</p>
 
-        <div className="table1">
+            <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+              <button onClick={() => setStatsLimit(30)}>30</button>
+              <button onClick={() => setStatsLimit(60)}>60</button>
+              <button onClick={() => setStatsLimit(100)}>100</button>
+            </div>
+          </div>
+
+          {loadingStats ? (
+            <p>Загрузка статистики...</p>
+          ) : !playerStats ? (
+            <p>Нет данных</p>
+          ) : (
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(2, 1fr)",
+                gap: "12px",
+              }}
+            >
+              <div className="miniStat">
+                <strong>Matches</strong>
+                <p>{playerStats.totalMatches}</p>
+              </div>
+
+              <div className="miniStat">
+                <strong>Winrate</strong>
+                <p>{playerStats.winrate}%</p>
+              </div>
+
+              <div className="miniStat">
+                <strong>Wins / Losses</strong>
+                <p>
+                  {playerStats.wins} / {playerStats.losses}
+                </p>
+              </div>
+
+              <div className="miniStat">
+                <strong>K/D</strong>
+                <p>{playerStats.kd}</p>
+              </div>
+
+              <div className="miniStat" style={{ gridColumn: "1 / -1" }}>
+                <strong>Avg Kills</strong>
+                <p>{playerStats.avgKills}</p>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="table1 tableshab">
           <p>Топ игроки FACEIT</p>
 
           <div
@@ -72,7 +163,11 @@ const TableSection = () => {
               flexWrap: "wrap",
             }}
           >
-            <select value={region} onChange={(e) => setRegion(e.target.value)}>
+            <select
+              value={region}
+              style={{ background: "#000" }}
+              onChange={(e) => setRegion(e.target.value)}
+            >
               <option value="EU">EU</option>
               <option value="NA">NA</option>
               <option value="SA">SA</option>
@@ -83,6 +178,7 @@ const TableSection = () => {
             <select
               value={country}
               onChange={(e) => setCountry(e.target.value)}
+              style={{ background: "#000" }}
             >
               <option value="">All countries</option>
               <option value="kg">Kyrgyzstan</option>
@@ -112,32 +208,8 @@ const TableSection = () => {
           </div>
         </div>
 
-        <div className="table2">
+        <div className="table2 tableshab">
           <p>Последние матчи</p>
-
-          <div className="table2_matches">
-            <p className="table2win">Adilet B. 1200MMR</p>
-            <p>3:0</p>
-            <p className="table2ls">100MMR Adilet U.</p>
-          </div>
-
-          <div className="table2_matches">
-            <p className="table2win">Adilet B. 1200MMR</p>
-            <p>3:0</p>
-            <p className="table2ls">100MMR Adilet U.</p>
-          </div>
-
-          <div className="table2_matches">
-            <p className="table2win">Adilet B. 1200MMR</p>
-            <p>3:0</p>
-            <p className="table2ls">100MMR Adilet U.</p>
-          </div>
-
-          <div className="table2_matches">
-            <p className="table2win">Adilet B. 1200MMR</p>
-            <p>3:0</p>
-            <p className="table2ls">100MMR Adilet U.</p>
-          </div>
 
           <div className="table2_matches">
             <p className="table2win">Adilet B. 1200MMR</p>
