@@ -1,6 +1,6 @@
 import "./TableSection.css";
 import pro from "../../../components/assets/ic_baseline-account-circle.svg";
-import { useAuth } from "../../../../context/AuthContext";
+import { useAuth } from "../../../context/AuthContext";
 import { useEffect, useState } from "react";
 
 const API_URL = "https://matrix-8of6.onrender.com";
