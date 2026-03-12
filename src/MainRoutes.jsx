@@ -4,7 +4,7 @@ import PlaygroundPage from "./pages/Playground/PlaygroundPage";
 import NewsDetailPage from "./pages/NewsDetail/NewsDetailPage";
 import LoginPage from "./pages/Login/LoginPage";
 import RegisterPage from "./pages/Register/RegisterPage";
-
+import AuthSuccess from "./pages/AuthSuccess";
 
 const MainRoutes = () => {
   //! Сюда добавлять ссылки на страницы
@@ -33,6 +33,11 @@ const MainRoutes = () => {
       link: "/register",
       element: <RegisterPage />,
       id: 5,
+    },
+    {
+      link: "/auth/success",
+      element: <AuthSuccess />,
+      id: 6,
     },
   ];
 

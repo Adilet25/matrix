@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Navbar.css";
 import logo from "../../../assets/logo.svg";
 import menuicon from "../../../assets/menu.svg";
 import topicon from "../../../assets/ic_twotone-bar-chart (1).svg";
 import hsicon from "../../../assets/ic_twotone-bar-chart.svg";
 import profileicon from "../../../assets/ic_baseline-account-circle.svg";
+import fcsmlogo from "../../../assets/fcsmlogo.svg";
+import { useAuth } from "../../../../context/AuthContext";
 
 //! MUI dropdown
 import Button from "@mui/material/Button";
@@ -20,18 +22,28 @@ import ListItemButton from "@mui/material/ListItemButton";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const [anchorEl, setAnchorEl] = ([null]);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const handleClick = () => {
+
+  const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
-
   const [open2, setOpen] = React.useState(false);
-  const toggleDrawer = () => () => {
+  const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
+  };
+  const { user, logout, apiUrl } = useAuth();
+
+  const handleLogin = () => {
+    window.open(
+      `${apiUrl}/auth/faceit/login`,
+      "faceitLogin",
+      "width=500,height=700",
+    );
   };
 
   return (
@@ -86,152 +98,174 @@ const Navbar = () => {
               className="navIcon"
             >
               <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M25.0059 19.6953C27.0609 21.0903 28.5009 22.9803 28.5009 25.5003V30.0003H33.0009C33.8259 30.0003 34.5009 29.3253 34.5009 28.5003V25.5003C34.5009 22.2303 29.1459 20.2953 25.0059 19.6953Z"
               />
               <path d="M13.5 18C16.8137 18 19.5 15.3137 19.5 12C19.5 8.68629 16.8137 6 13.5 6C10.1863 6 7.5 8.68629 7.5 12C7.5 15.3137 10.1863 18 13.5 18Z" />
               <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M22.5 18C25.815 18 28.5 15.315 28.5 12C28.5 8.685 25.815 6 22.5 6C21.795 6 21.135 6.15 20.505 6.36C21.7958 7.95633 22.5 9.9471 22.5 12C22.5 14.0529 21.7958 16.0437 20.505 17.64C21.135 17.85 21.795 18 22.5 18ZM13.5 19.5C9.495 19.5 1.5 21.51 1.5 25.5V28.5C1.5 29.325 2.175 30 3 30H24C24.825 30 25.5 29.325 25.5 28.5V25.5C25.5 21.51 17.505 19.5 13.5 19.5Z"
               />
             </svg>
             <p>КОМАНДЫ</p>
           </div>
         </div>
-        <div className="mainBlock_info">
-          <div>
-            <input type="text" placeholder="Поиск" className="nav_search" />
-            <svg
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              className="search"
-            >
-              <path d="M15.4995 13.9995H14.7095L14.4295 13.7295C15.0544 13.0035 15.5112 12.1483 15.767 11.2251C16.0229 10.3019 16.0715 9.33364 15.9095 8.38949C15.4395 5.60949 13.1195 3.38949 10.3195 3.04949C9.3351 2.92495 8.33527 3.02726 7.39651 3.34858C6.45775 3.66989 5.60493 4.20171 4.90332 4.90332C4.20171 5.60493 3.66989 6.45775 3.34858 7.39651C3.02726 8.33527 2.92495 9.3351 3.04949 10.3195C3.38949 13.1195 5.60949 15.4395 8.38949 15.9095C9.33364 16.0715 10.3019 16.0229 11.2251 15.767C12.1483 15.5112 13.0035 15.0544 13.7295 14.4295L13.9995 14.7095V15.4995L18.2495 19.7495C18.6595 20.1595 19.3295 20.1595 19.7395 19.7495C20.1495 19.3395 20.1495 18.6695 19.7395 18.2595L15.4995 13.9995ZM9.49949 13.9995C7.00949 13.9995 4.99949 11.9895 4.99949 9.49949C4.99949 7.00949 7.00949 4.99949 9.49949 4.99949C11.9895 4.99949 13.9995 7.00949 13.9995 9.49949C13.9995 11.9895 11.9895 13.9995 9.49949 13.9995Z" />
-            </svg>
-          </div>
-          <div id="mmr">
-            MMR
-            <br />
-            1200
-          </div>
-          <div>
-            <div>
-              <Button
-                id="basic-button"
-                aria-controls={open ? "basic-menu" : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? "true" : undefined}
-                onClick={handleClick}
-                color="inherit"
-              >
-                <AccountCircle />
-              </Button>
-              <Menu
-                id="basic-menu"
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                MenuListProps={{
-                  "aria-labelledby": "basic-button",
-                }}
-                sx={{
-                  mt: "1px",
-                  "& .MuiMenu-paper": {
-                    backgroundColor: "#1A1A1C",
-                    color: "#F8F8F8",
-                  },
-                }}
-              >
-                <MenuItem onClick={handleClose}>
-                  <div className="profileDrop">
-                    <img src={profileicon} alt="error" />
-                    Профиль
-                  </div>
-                </MenuItem>
-                <MenuItem onClick={handleClose}>
-                  <div className="profileDrop">
-                    <img src={topicon} alt="error" />
-                    Топ
-                  </div>
-                </MenuItem>
-                <MenuItem onClick={handleClose}>
-                  <div className="profileDrop">
-                    <img src={hsicon} alt="error" />
-                    История матчей
-                  </div>
-                </MenuItem>
-                <MenuItem onClick={handleClose}>
-                  <div className="profileDrop">Выйти</div>
-                </MenuItem>
-              </Menu>
-            </div>
-          </div>
-        </div>
-        <div className="mainBlock_drawer">
-          <Button onClick={toggleDrawer(true)}>
-            <img src={menuicon} alt="error" style={{ width: "2.6rem" }} />
-          </Button>
-          <Drawer anchor={"right"} open={open2} onClose={toggleDrawer(false)}>
-            <Box sx={{ width: 250 }} role="presentation">
-              <List>
-                <div className="drawerSearch">
+        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          {user ? (
+            <>
+              <span>{user.nickname}</span>
+              <button onClick={logout}>Logout</button>
+
+              <div className="mainBlock_info">
+                <div>
                   <input
                     type="text"
                     placeholder="Поиск"
                     className="nav_search"
                   />
+                  <svg
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="search"
+                  >
+                    <path d="M15.4995 13.9995H14.7095L14.4295 13.7295C15.0544 13.0035 15.5112 12.1483 15.767 11.2251C16.0229 10.3019 16.0715 9.33364 15.9095 8.38949C15.4395 5.60949 13.1195 3.38949 10.3195 3.04949C9.3351 2.92495 8.33527 3.02726 7.39651 3.34858C6.45775 3.66989 5.60493 4.20171 4.90332 4.90332C4.20171 5.60493 3.66989 6.45775 3.34858 7.39651C3.02726 8.33527 2.92495 9.3351 3.04949 10.3195C3.38949 13.1195 5.60949 15.4395 8.38949 15.9095C9.33364 16.0715 10.3019 16.0229 11.2251 15.767C12.1483 15.5112 13.0035 15.0544 13.7295 14.4295L13.9995 14.7095V15.4995L18.2495 19.7495C18.6595 20.1595 19.3295 20.1595 19.7395 19.7495C20.1495 19.3395 20.1495 18.6695 19.7395 18.2595L15.4995 13.9995ZM9.49949 13.9995C7.00949 13.9995 4.99949 11.9895 4.99949 9.49949C4.99949 7.00949 7.00949 4.99949 9.49949 4.99949C11.9895 4.99949 13.9995 7.00949 13.9995 9.49949C13.9995 11.9895 11.9895 13.9995 9.49949 13.9995Z" />
+                  </svg>
                 </div>
-              </List>
-            </Box>
-            <Divider />
-            <Box
-              sx={{ width: 250 }}
-              role="presentation"
-              onClick={toggleDrawer(false)}
-            >
-              <List>
-                <ListItemButton>1200 MMR</ListItemButton>
-              </List>
-            </Box>
-            <Box
-              sx={{ width: 250 }}
-              role="presentation"
-              onClick={toggleDrawer(false)}
-            >
-              <List>
-                <ListItemButton>Профиль</ListItemButton>
-              </List>
-            </Box>
-            <Box
-              sx={{ width: 250 }}
-              role="presentation"
-              onClick={toggleDrawer(false)}
-            >
-              <List>
-                <ListItemButton>Топ</ListItemButton>
-              </List>
-            </Box>
-            <Box
-              sx={{ width: 250 }}
-              role="presentation"
-              onClick={toggleDrawer(false)}
-            >
-              <List>
-                <ListItemButton>История матчей</ListItemButton>
-              </List>
-            </Box>
-            <Box
-              sx={{ width: 250 }}
-              role="presentation"
-              onClick={toggleDrawer(false)}
-            >
-              <List>
-                <ListItemButton>Выйти</ListItemButton>
-              </List>
-            </Box>
-          </Drawer>
+                <div id="mmr">
+                  MMR
+                  <br />
+                  1200
+                </div>
+                <div>
+                  <div>
+                    <Button
+                      id="basic-button"
+                      aria-controls={open ? "basic-menu" : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={open ? "true" : undefined}
+                      onClick={handleClick}
+                      color="inherit"
+                    >
+                      <AccountCircle />
+                    </Button>
+                    <Menu
+                      id="basic-menu"
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={handleClose}
+                      MenuListProps={{
+                        "aria-labelledby": "basic-button",
+                      }}
+                      sx={{
+                        mt: "1px",
+                        "& .MuiMenu-paper": {
+                          backgroundColor: "#1A1A1C",
+                          color: "#F8F8F8",
+                        },
+                      }}
+                    >
+                      <MenuItem onClick={handleClose}>
+                        <div className="profileDrop">
+                          <img src={profileicon} alt="error" />
+                          Профиль
+                        </div>
+                      </MenuItem>
+                      <MenuItem onClick={handleClose}>
+                        <div className="profileDrop">
+                          <img src={topicon} alt="error" />
+                          Топ
+                        </div>
+                      </MenuItem>
+                      <MenuItem onClick={handleClose}>
+                        <div className="profileDrop">
+                          <img src={hsicon} alt="error" />
+                          История матчей
+                        </div>
+                      </MenuItem>
+                      <MenuItem onClick={handleClose}>
+                        <div className="profileDrop">Выйти</div>
+                      </MenuItem>
+                    </Menu>
+                  </div>
+                </div>
+              </div>
+              <div className="mainBlock_drawer">
+                <Button onClick={toggleDrawer(true)}>
+                  <img src={menuicon} alt="error" style={{ width: "2.6rem" }} />
+                </Button>
+                <Drawer
+                  anchor={"right"}
+                  open={open2}
+                  onClose={toggleDrawer(false)}
+                >
+                  <Box sx={{ width: 250 }} role="presentation">
+                    <List>
+                      <div className="drawerSearch">
+                        <input
+                          type="text"
+                          placeholder="Поиск"
+                          className="nav_search"
+                        />
+                      </div>
+                    </List>
+                  </Box>
+                  <Divider />
+                  <Box
+                    sx={{ width: 250 }}
+                    role="presentation"
+                    onClick={toggleDrawer(false)}
+                  >
+                    <List>
+                      <ListItemButton>1200 MMR</ListItemButton>
+                    </List>
+                  </Box>
+                  <Box
+                    sx={{ width: 250 }}
+                    role="presentation"
+                    onClick={toggleDrawer(false)}
+                  >
+                    <List>
+                      <ListItemButton>Профиль</ListItemButton>
+                    </List>
+                  </Box>
+                  <Box
+                    sx={{ width: 250 }}
+                    role="presentation"
+                    onClick={toggleDrawer(false)}
+                  >
+                    <List>
+                      <ListItemButton>Топ</ListItemButton>
+                    </List>
+                  </Box>
+                  <Box
+                    sx={{ width: 250 }}
+                    role="presentation"
+                    onClick={toggleDrawer(false)}
+                  >
+                    <List>
+                      <ListItemButton>История матчей</ListItemButton>
+                    </List>
+                  </Box>
+                  <Box
+                    sx={{ width: 250 }}
+                    role="presentation"
+                    onClick={toggleDrawer(false)}
+                  >
+                    <List>
+                      <ListItemButton>Выйти</ListItemButton>
+                    </List>
+                  </Box>
+                </Drawer>
+              </div>
+            </>
+          ) : (
+            <button onClick={handleLogin} className="logBtn_nav">
+              Login with Faceit
+              <img src={fcsmlogo} alt="" />
+            </button>
+          )}
         </div>
       </div>
     </div>

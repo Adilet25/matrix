@@ -12,6 +12,7 @@
   flex-direction: row;
   height: 4rem;
   color: #ffffff !important;
+  padding: 0 1rem;
 }
 .mainBlock_opt {
   display: flex;
@@ -42,14 +43,37 @@
   transition: 0.3s;
 }
 .mainBlock_nav > div:hover {
-  background-color: #009FFF;
+  background-color: #009fff;
   transition: 0.3s;
   animation: ease-in;
   color: #1a1a1c;
+  transform: translateY(-2px);
+  box-shadow: 0px 0px 30px #009fff;
   .navIcon {
     fill: #1a1a1c;
     transition: 0.5s;
   }
+}
+.logBtn_nav {
+  width: 13rem;
+  height: 2.4rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: #fa5e00;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.logBtn_nav:hover {
+  transform: translateY(-2px);
+  width: 13rem;
+  height: 2.4rem;
+  background-color: #fa5e00;
+  box-shadow: 0px 5px 10px #fa5e00;
+  transition: 0.3s;
 }
 .navIcon {
   width: 2rem;
