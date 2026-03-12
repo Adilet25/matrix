@@ -1,20 +1,33 @@
 import "./TableSection.css";
 import pro from "../../../components/assets/ic_baseline-account-circle.svg";
-import { useAuth } from "../../../context/AuthContext";
+import { useAuth } from "../../../../context/AuthContext";
 import { useEffect, useState } from "react";
 
 const API_URL = "https://matrix-8of6.onrender.com";
 
 const TableSection = () => {
   const { user } = useAuth();
+
   const [topPlayers, setTopPlayers] = useState([]);
   const [loadingTop, setLoadingTop] = useState(true);
 
+  const [region, setRegion] = useState("EU");
+  const [country, setCountry] = useState("kg");
+
   useEffect(() => {
     const fetchTopPlayers = async () => {
+      setLoadingTop(true);
+
       try {
-        const response = await fetch(`${API_URL}/api/leaderboard`);
+        let url = `${API_URL}/api/leaderboard?region=${region}&limit=10`;
+
+        if (country) {
+          url += `&country=${country}`;
+        }
+
+        const response = await fetch(url);
         const data = await response.json();
+
         setTopPlayers(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error("Top players fetch error:", error);
@@ -25,7 +38,7 @@ const TableSection = () => {
     };
 
     fetchTopPlayers();
-  }, []);
+  }, [region, country]);
 
   return (
     <div className="containers">
@@ -49,7 +62,37 @@ const TableSection = () => {
         <div className="table01">STATA DIAGRAM LAST 5 GAMES</div>
 
         <div className="table1">
-          <p>Топ игроки FACEIT Кыргызстан</p>
+          <p>Топ игроки FACEIT</p>
+
+          <div
+            style={{
+              display: "flex",
+              gap: "10px",
+              marginBottom: "12px",
+              flexWrap: "wrap",
+            }}
+          >
+            <select value={region} onChange={(e) => setRegion(e.target.value)}>
+              <option value="EU">EU</option>
+              <option value="NA">NA</option>
+              <option value="SA">SA</option>
+              <option value="OCE">OCE</option>
+              <option value="SEA">SEA</option>
+            </select>
+
+            <select
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+            >
+              <option value="">All countries</option>
+              <option value="kg">Kyrgyzstan</option>
+              <option value="kz">Kazakhstan</option>
+              <option value="uz">Uzbekistan</option>
+              <option value="ru">Russia</option>
+              <option value="tr">Turkey</option>
+              <option value="us">USA</option>
+            </select>
+          </div>
 
           <div className="tableSec_list">
             {loadingTop ? (
