@@ -3,26 +3,49 @@ const axios = require("axios");
 const crypto = require("crypto");
 const User = require("../models/User");
 
-function buildAuthorizeUrl(state) {
+function base64url(buffer) {
+  return buffer
+    .toString("base64")
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/g, "");
+}
+
+function generateCodeVerifier() {
+  return base64url(crypto.randomBytes(64));
+}
+
+function generateCodeChallenge(verifier) {
+  return base64url(crypto.createHash("sha256").update(verifier).digest());
+}
+
+function buildAuthorizeUrl(state, codeChallenge) {
   const params = new URLSearchParams({
     client_id: process.env.FACEIT_CLIENT_ID,
     redirect_uri: process.env.FACEIT_REDIRECT_URI,
     response_type: "code",
     scope: "openid",
     state,
+    code_challenge: codeChallenge,
+    code_challenge_method: "S256",
   });
 
   return `https://accounts.faceit.com?${params.toString()}`;
 }
 
-// Шаг 1: отправляем пользователя на Faceit login
+// 1) redirect to FACEIT login
 router.get("/login", (req, res) => {
   const state = crypto.randomBytes(16).toString("hex");
+  const codeVerifier = generateCodeVerifier();
+  const codeChallenge = generateCodeChallenge(codeVerifier);
+
   req.session.faceitState = state;
-  res.redirect(buildAuthorizeUrl(state));
+  req.session.faceitCodeVerifier = codeVerifier;
+
+  res.redirect(buildAuthorizeUrl(state, codeChallenge));
 });
 
-// Шаг 2: callback после успешного входа
+// 2) callback after successful login
 router.get("/callback", async (req, res) => {
   const { code, state, error } = req.query;
 
@@ -38,6 +61,10 @@ router.get("/callback", async (req, res) => {
     return res.status(400).json({ error: "Invalid state" });
   }
 
+  if (!req.session.faceitCodeVerifier) {
+    return res.status(400).json({ error: "Missing PKCE code verifier" });
+  }
+
   try {
     const basicAuth = Buffer.from(
       `${process.env.FACEIT_CLIENT_ID}:${process.env.FACEIT_CLIENT_SECRET}`
@@ -47,9 +74,10 @@ router.get("/callback", async (req, res) => {
       grant_type: "authorization_code",
       code,
       redirect_uri: process.env.FACEIT_REDIRECT_URI,
+      code_verifier: req.session.faceitCodeVerifier,
     });
 
-    // Шаг 3: меняем code на access_token
+    // exchange code -> access token
     const tokenResponse = await axios.post(
       "https://api.faceit.com/auth/v1/oauth/token",
       tokenParams.toString(),
@@ -63,7 +91,7 @@ router.get("/callback", async (req, res) => {
 
     const { access_token } = tokenResponse.data;
 
-    // Шаг 4: получаем OpenID userinfo
+    // get OpenID userinfo
     const userInfoResponse = await axios.get(
       "https://api.faceit.com/auth/v1/resources/userinfo",
       {
@@ -77,10 +105,10 @@ router.get("/callback", async (req, res) => {
     const faceitId = userInfo.sub;
 
     if (!faceitId) {
-      return res.status(400).json({ error: "Faceit user id (sub) not found" });
+      return res.status(400).json({ error: "Faceit user id not found" });
     }
 
-    // Шаг 5: получаем полный профиль игрока через Data API
+    // get full player data via FACEIT Data API
     const playerResponse = await axios.get(
       `https://open.faceit.com/data/v4/players/${faceitId}`,
       {
@@ -116,8 +144,8 @@ router.get("/callback", async (req, res) => {
 
     req.session.userId = user._id;
     delete req.session.faceitState;
+    delete req.session.faceitCodeVerifier;
 
-    // редирект на фронт
     return res.redirect(
       `${process.env.FRONTEND_URL}/auth/success?nickname=${encodeURIComponent(user.nickname)}`
     );
@@ -129,25 +157,22 @@ router.get("/callback", async (req, res) => {
   }
 });
 
-// Текущий авторизованный пользователь
 router.get("/me", async (req, res) => {
-  try {
-    if (!req.session.userId) {
-      return res.status(401).json({ error: "Not authenticated" });
-    }
+  if (!req.session.userId) {
+    return res.status(401).json({ error: "Not authenticated" });
+  }
 
+  try {
     const user = await User.findById(req.session.userId);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-
     return res.json(user);
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
 });
 
-// Logout
 router.post("/logout", (req, res) => {
   req.session.destroy(() => {
     res.json({ message: "Logged out" });
