@@ -36,6 +36,10 @@ const Navbar = () => {
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
+  const toggleLog = (newOpen) => () => {
+    logout;
+    setOpen(newOpen);
+  };
   const { user, logout, apiUrl } = useAuth();
 
   const handleLogin = () => {
@@ -115,9 +119,6 @@ const Navbar = () => {
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
           {user ? (
             <>
-              <span>{user.nickname}</span>
-              <button onClick={logout}>Logout</button>
-
               <div className="mainBlock_info">
                 <div>
                   <input
@@ -133,10 +134,11 @@ const Navbar = () => {
                     <path d="M15.4995 13.9995H14.7095L14.4295 13.7295C15.0544 13.0035 15.5112 12.1483 15.767 11.2251C16.0229 10.3019 16.0715 9.33364 15.9095 8.38949C15.4395 5.60949 13.1195 3.38949 10.3195 3.04949C9.3351 2.92495 8.33527 3.02726 7.39651 3.34858C6.45775 3.66989 5.60493 4.20171 4.90332 4.90332C4.20171 5.60493 3.66989 6.45775 3.34858 7.39651C3.02726 8.33527 2.92495 9.3351 3.04949 10.3195C3.38949 13.1195 5.60949 15.4395 8.38949 15.9095C9.33364 16.0715 10.3019 16.0229 11.2251 15.767C12.1483 15.5112 13.0035 15.0544 13.7295 14.4295L13.9995 14.7095V15.4995L18.2495 19.7495C18.6595 20.1595 19.3295 20.1595 19.7395 19.7495C20.1495 19.3395 20.1495 18.6695 19.7395 18.2595L15.4995 13.9995ZM9.49949 13.9995C7.00949 13.9995 4.99949 11.9895 4.99949 9.49949C4.99949 7.00949 7.00949 4.99949 9.49949 4.99949C11.9895 4.99949 13.9995 7.00949 13.9995 9.49949C13.9995 11.9895 11.9895 13.9995 9.49949 13.9995Z" />
                   </svg>
                 </div>
+                <span>{user.nickname}</span>
                 <div id="mmr">
                   MMR
                   <br />
-                  1200
+                  {user.elo}
                 </div>
                 <div>
                   <div>
@@ -184,8 +186,15 @@ const Navbar = () => {
                           История матчей
                         </div>
                       </MenuItem>
-                      <MenuItem onClick={handleClose}>
-                        <div className="profileDrop">Выйти</div>
+                      <MenuItem
+                        onClick={() => {
+                          logout();
+                          handleClose();
+                        }}
+                      >
+                        <div className="profileDrop" onClick={logout}>
+                          Выйтиdd
+                        </div>
                       </MenuItem>
                     </Menu>
                   </div>
@@ -218,13 +227,15 @@ const Navbar = () => {
                     onClick={toggleDrawer(false)}
                   >
                     <List>
-                      <ListItemButton>1200 MMR</ListItemButton>
+                      <ListItemButton>{user.elo} MMR</ListItemButton>
                     </List>
                   </Box>
                   <Box
                     sx={{ width: 250 }}
                     role="presentation"
-                    onClick={toggleDrawer(false)}
+                    onClick={() => {
+                      toggleDrawer(false);
+                    }}
                   >
                     <List>
                       <ListItemButton>Профиль</ListItemButton>
@@ -251,7 +262,10 @@ const Navbar = () => {
                   <Box
                     sx={{ width: 250 }}
                     role="presentation"
-                    onClick={toggleDrawer(false)}
+                    onClick={() => {
+                      logout();
+                      toggleDrawer(false);
+                    }}
                   >
                     <List>
                       <ListItemButton>Выйти</ListItemButton>
