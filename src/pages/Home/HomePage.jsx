@@ -2,6 +2,8 @@ import NewsSection from "../../components/sections/NewsSection/NewsSection";
 import TableSection from "../../components/sections/TableSection/TableSection";
 import TournamentSection from "../../components/sections/TournamentSection/TournamentSection";
 import MainSection from "../../components/sections/homesec/MainSection";
+import PlaySection from "../../components/sections/playsec/PlaySection";
+
 import { useAuth } from "../../context/AuthContext";
 
 const HomePage = () => {
@@ -11,7 +13,7 @@ const HomePage = () => {
     return <p style={{ padding: "24px" }}>Loading...</p>;
   }
   return (
-    <div>
+    <div className="">
       {user ? (
         <div
           style={{
@@ -40,9 +42,10 @@ const HomePage = () => {
       ) : (
         <p style={{ marginTop: "20px" }}>You are not logged in.</p>
       )}
-      <MainSection />
+      <PlaySection />
       <TableSection />
       <TournamentSection />
+      <MainSection />
       <NewsSection />
     </div>
   );
