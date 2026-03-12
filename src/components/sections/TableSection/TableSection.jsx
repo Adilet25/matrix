@@ -1,5 +1,6 @@
 import "./TableSection.css";
 import pro from "../../../components/assets/ic_baseline-account-circle.svg";
+import fcsmlogo from "../../assets/fcsmlogo.svg";
 import { useAuth } from "../../../context/AuthContext";
 import { useEffect, useState } from "react";
 
@@ -17,7 +18,15 @@ const TableSection = () => {
   const [statsLimit, setStatsLimit] = useState(30);
   const [playerStats, setPlayerStats] = useState(null);
   const [loadingStats, setLoadingStats] = useState(false);
+  const { apiUrl } = useAuth();
 
+  const handleLogin = () => {
+    window.open(
+      `${apiUrl}/auth/faceit/login`,
+      "faceitLogin",
+      "width=500,height=700",
+    );
+  };
   useEffect(() => {
     const fetchTopPlayers = async () => {
       setLoadingTop(true);
@@ -73,7 +82,9 @@ const TableSection = () => {
 
   return (
     <div className="containers">
-      <p className="tablename">Таблица</p>
+      <p className="tablename" style={{ margin: "1rem 0" }}>
+        Таблица
+      </p>
 
       <div className="tableSec">
         <div className="table0 tableshab">
@@ -104,16 +115,34 @@ const TableSection = () => {
             <p style={{ margin: 0 }}>Статы за последние матчи</p>
 
             <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-              <button onClick={() => setStatsLimit(30)}>30</button>
-              <button onClick={() => setStatsLimit(60)}>60</button>
-              <button onClick={() => setStatsLimit(100)}>100</button>
+              <button
+                style={{ cursor: "pointer" }}
+                onClick={() => setStatsLimit(30)}
+              >
+                30
+              </button>
+              <button
+                style={{ cursor: "pointer" }}
+                onClick={() => setStatsLimit(60)}
+              >
+                60
+              </button>
+              <button
+                style={{ cursor: "pointer" }}
+                onClick={() => setStatsLimit(100)}
+              >
+                100
+              </button>
             </div>
           </div>
 
           {loadingStats ? (
             <p>Загрузка статистики...</p>
           ) : !playerStats ? (
-            <p>Нет данных</p>
+            <button onClick={handleLogin} className="logBtn_nav">
+              Зайдите в аккаунт
+              <img src={fcsmlogo} alt="" />
+            </button>
           ) : (
             <div
               style={{
