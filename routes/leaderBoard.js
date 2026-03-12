@@ -8,8 +8,18 @@ router.get("/", async (req, res) => {
     const limit = Number(req.query.limit) || 10;
     const offset = Number(req.query.offset) || 0;
 
-    const gameId = "cs2";
-    const region = "EU";
+    const gameId = req.query.gameId || "cs2";
+    const region = req.query.region || "EU";
+    const country = (req.query.country || "").trim().toLowerCase();
+
+    const params = {
+      limit,
+      offset,
+    };
+
+    if (country) {
+      params.country = country;
+    }
 
     const response = await axios.get(
       `https://open.faceit.com/data/v4/rankings/games/${gameId}/regions/${region}`,
@@ -17,11 +27,7 @@ router.get("/", async (req, res) => {
         headers: {
           Authorization: `Bearer ${process.env.FACEIT_KEY}`,
         },
-        params: {
-          country: "kg",
-          limit,
-          offset,
-        },
+        params,
       },
     );
 
