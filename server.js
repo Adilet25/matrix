@@ -32,18 +32,14 @@ mongoose.connect(process.env.MONGO_URI)
   .catch(err => console.log("MongoDB connection error:", err));
 
 // routes
+const faceitOAuthRoutes = require("./routes/faceitOAuth");
 const faceitRoutes = require("./routes/faceit");
 const topPlayersRoutes = require("./routes/topPlayers");
 
-// OAuth login
-const faceitOAuthRoutes = require("./routes/faceitOAuth");
 app.use("/auth/faceit", faceitOAuthRoutes);
-
-// API routes
 app.use("/api/faceit", faceitRoutes);
 app.use("/api/top-players", topPlayersRoutes);
 
-// test
 app.get("/", (req, res) => {
   res.send("API running");
 });
