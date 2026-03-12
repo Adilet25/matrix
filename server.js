@@ -8,33 +8,39 @@ const app = express();
 
 app.set("trust proxy", 1);
 
-app.use(cors({
-  origin: process.env.FRONTEND_URL,
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+  }),
+);
 
 app.use(express.json());
 
-app.use(session({
-  secret: process.env.SESSION_SECRET || "matrixsecret",
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    httpOnly: true,
-    secure: true,
-    sameSite: "none",
-    maxAge: 1000 * 60 * 60 * 24 * 7,
-  },
-}));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "matrixsecret",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    },
+  }),
+);
 
-mongoose.connect(process.env.MONGO_URI)
+mongoose
+  .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))
-  .catch(err => console.log("MongoDB connection error:", err));
-
+  .catch((err) => console.log("MongoDB connection error:", err));
+const leaderboardRoutes = require("./routes/leaderBoard");
 const faceitOAuthRoutes = require("./routes/faceitOAuth");
 const faceitRoutes = require("./routes/faceit");
 const topPlayersRoutes = require("./routes/topPlayers");
 
+app.use("/api/leaderboard", leaderboardRoutes);
 app.use("/auth/faceit", faceitOAuthRoutes);
 app.use("/api/faceit", faceitRoutes);
 app.use("/api/top-players", topPlayersRoutes);
