@@ -1,0 +1,266 @@
+.systemOverview {
+  margin-top: 28px;
+  padding: 28px;
+  border-radius: 22px;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, #111214 0%, #0b0b0c 100%);
+  border: 3px solid #1d1d1f;
+  box-shadow:
+    0 0 0 2px #000 inset,
+    0 12px 40px rgba(0, 0, 0, 0.35);
+  image-rendering: pixelated;
+}
+
+.systemOverview::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 24px 24px;
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.systemHeader {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 22px;
+}
+
+.systemLabel {
+  color: #20bf55;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  margin-bottom: 10px;
+}
+
+.systemHeader h2 {
+  margin: 0;
+  color: #f8f8f8;
+  font-size: clamp(26px, 3vw, 42px);
+  line-height: 1.1;
+}
+
+.systemSub {
+  margin-top: 10px;
+  color: #a9a9a9;
+  max-width: 700px;
+  line-height: 1.6;
+}
+
+.systemGrid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 22px;
+}
+
+.systemMonitor {
+  border: 3px solid #242427;
+  background: #090909;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 2px #000 inset,
+    0 0 25px rgba(32, 191, 85, 0.08);
+}
+
+.systemWindowTop {
+  display: flex;
+  gap: 8px;
+  padding: 12px 14px;
+  border-bottom: 2px solid #1b1b1d;
+  background: #121214;
+}
+
+.pixelDot {
+  width: 10px;
+  height: 10px;
+  display: block;
+  box-shadow: 2px 2px 0 #000;
+}
+
+.pixelDot.green {
+  background: #20bf55;
+}
+
+.pixelDot.yellow {
+  background: #ffc857;
+}
+
+.pixelDot.red {
+  background: #ff4d4f;
+}
+
+.systemScreen {
+  position: relative;
+  min-height: 340px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.systemScreen.green {
+  box-shadow: inset 0 0 40px rgba(32, 191, 85, 0.05);
+}
+
+.systemScreen.blue {
+  box-shadow: inset 0 0 40px rgba(0, 159, 255, 0.05);
+}
+
+.systemScreen.red {
+  box-shadow: inset 0 0 40px rgba(255, 77, 79, 0.05);
+}
+
+.systemScanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.04) 0px,
+    rgba(255, 255, 255, 0.04) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  opacity: 0.18;
+}
+
+.systemMode {
+  color: #20bf55;
+  font-size: 12px;
+  margin: 0 0 10px;
+  letter-spacing: 0.12em;
+}
+
+.systemScreen h3 {
+  color: #fff;
+  font-size: clamp(24px, 3vw, 40px);
+  margin: 0;
+  line-height: 1.05;
+}
+
+.systemDesc {
+  color: #b8b8b8;
+  margin-top: 14px;
+  max-width: 600px;
+  line-height: 1.6;
+}
+
+.systemStats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.systemStatBox {
+  padding: 10px 12px;
+  background: #131315;
+  border: 2px solid #242427;
+  color: #f0f0f0;
+  box-shadow: 2px 2px 0 #000;
+  font-size: 13px;
+}
+
+.systemFooter {
+  margin-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  color: #909090;
+  font-size: 11px;
+}
+
+.systemCards {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.systemCard {
+  text-align: left;
+  background: #121214;
+  border: 2px solid #242427;
+  color: white;
+  border-radius: 16px;
+  padding: 18px;
+  cursor: pointer;
+  transition:
+    transform 0.16s ease,
+    border-color 0.16s ease,
+    box-shadow 0.16s ease;
+  box-shadow: 0 0 0 2px #000 inset;
+}
+
+.systemCard:hover,
+.systemCard.active {
+  transform: translateY(-2px);
+  border-color: #20bf55;
+  box-shadow:
+    0 0 18px rgba(32, 191, 85, 0.12),
+    0 0 0 2px #000 inset;
+}
+
+.systemCardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.systemBadge {
+  display: inline-block;
+  padding: 6px 8px;
+  font-size: 11px;
+  border: 2px solid #000;
+  box-shadow: 2px 2px 0 #000;
+}
+
+.systemBadge.green {
+  background: #164d28;
+  color: #d6ffe4;
+}
+
+.systemBadge.blue {
+  background: #10354d;
+  color: #d7f3ff;
+}
+
+.systemBadge.red {
+  background: #5a1b1b;
+  color: #ffe0e0;
+}
+
+.systemArrow {
+  color: #8d8d8d;
+  font-size: 18px;
+}
+
+.systemCard h4 {
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+
+.systemCard p {
+  margin: 0;
+  color: #b8b8b8;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+@media (max-width: 980px) {
+  .systemGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .systemScreen {
+    min-height: 300px;
+  }
+}

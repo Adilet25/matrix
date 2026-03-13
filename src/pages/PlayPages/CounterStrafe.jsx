@@ -12,10 +12,11 @@ const CounterStrafe = () => {
   const timerRef = useRef(null);
 
   const clearEnemyTimer = () => {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-      timerRef.current = null;
-    }
+    // if (timerRef.current) {
+    //   clearTimeout(timerRef.current);
+    //   timerRef.current = null;
+    // }d
+    console.log("dddda");
   };
 
   const resetGame = () => {
@@ -39,12 +40,18 @@ const CounterStrafe = () => {
 
   const startEnemyTimer = (currentHeldKey) => {
     clearEnemyTimer();
+
     setEnemyVisible(false);
+
     setMessage(`Holding ${currentHeldKey}... wait for ENEMY`);
 
-    const delay = Math.floor(Math.random() * 550) + 350; // 1-3 sec
+    const delay = Math.floor(Math.random() * 550) + 300; // 1-3 sec
+
+    console.log(delay);
 
     timerRef.current = setTimeout(() => {
+      console.log("ddd");
+
       setEnemyVisible(true);
       setMessage("ENEMY");
     }, delay);
@@ -52,13 +59,13 @@ const CounterStrafe = () => {
 
   useEffect(() => {
     const handleKeyDown = (e) => {
+      if (e.repeat) return;
+
       const key = e.key.toUpperCase();
 
       if (key !== "A" && key !== "D") return;
-
       if (isGameOver) return;
 
-      // start holding first key
       if (!gameStarted && !heldKey) {
         setGameStarted(true);
         setHeldKey(key);
@@ -66,7 +73,6 @@ const CounterStrafe = () => {
         return;
       }
 
-      // if enemy is not visible yet and user presses another key -> mistake
       if (!enemyVisible) {
         if (heldKey && key !== heldKey) {
           gameOver("Too early! You pressed before ENEMY");
@@ -74,7 +80,6 @@ const CounterStrafe = () => {
         return;
       }
 
-      // enemy visible: must press opposite key
       const correctKey = heldKey === "A" ? "D" : "A";
 
       if (key === correctKey) {

@@ -3,6 +3,10 @@ import TableSection from "../../components/sections/TableSection/TableSection";
 import TournamentSection from "../../components/sections/TournamentSection/TournamentSection";
 import MainSection from "../../components/sections/homesec/MainSection";
 import PlaySection from "../../components/sections/playsec/PlaySection";
+import HeroSection from "../../components/sections/herosec/HeroSection";
+import SystemOverview from "../../components/sections/syssec/SystemOverview";
+
+import "./HomePage.css";
 
 import { useAuth } from "../../context/AuthContext";
 
@@ -14,11 +18,48 @@ const HomePage = () => {
   }
   return (
     <div className="">
-      {user ? (
+      {/* {user ? (
         <p style={{ marginTop: "20px" }}>You are logged in.</p>
       ) : (
         <p style={{ marginTop: "20px" }}>You are not logged in.</p>
-      )}
+      )} */}
+      <HeroSection />
+      <SystemOverview />
+      <div className="authStatusWrap">
+        <div className={`authPixelCard ${user ? "authOk" : "authBad"}`}>
+          <div className="authScanline" />
+          <div className="authDots">
+            <span />
+            <span />
+            <span />
+          </div>
+
+          <div className="authMainRow">
+            <div className="authAvatarPixel">{user ? "✓" : "?"}</div>
+
+            <div className="authTextBlock">
+              <p className="authTitle">
+                {user ? "PLAYER AUTHORIZED" : "NO SIGNAL"}
+              </p>
+
+              <p className="authSub">
+                {user
+                  ? `FACEIT LINK ESTABLISHED${user?.nickname ? `: ${user.nickname}` : ""}`
+                  : "CONNECT FACEIT ACCOUNT TO UNLOCK FEATURES"}
+              </p>
+            </div>
+          </div>
+
+          <div className="authProgress">
+            <div className={`authProgressBar ${user ? "barOk" : "barBad"}`} />
+          </div>
+
+          <div className="authFooter">
+            <span>{user ? "STATUS: ONLINE" : "STATUS: OFFLINE"}</span>
+            <span>{user ? "READY" : "WAITING"}</span>
+          </div>
+        </div>
+      </div>
       <PlaySection />
       <TableSection />
       <TournamentSection />

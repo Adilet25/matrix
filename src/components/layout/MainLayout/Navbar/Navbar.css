@@ -151,12 +151,24 @@
     display: block;
   }
 }
+@media screen and (max-width: 768px) {
+  .mainBlock_nav {
+    margin-left: 0rem;
+  }
+  .fchide {
+    display: none;
+  }
+  .logBtn_nav {
+    width: 7rem;
+  }
+}
 @media screen and (max-width: 570px) {
   .mainBlock_nav {
     margin-left: 0rem;
   }
   .mainBlock_nav > div {
-    font-size: 12px;
+    font-size: 8px;
+    width: 3rem;
     margin-right: 0;
   }
   .navIcon {
@@ -164,7 +176,23 @@
     height: 1.5rem;
   }
 }
-@media screen and (max-width: 443px) {
+@media screen and (max-width: 425px) {
+  #logo {
+    width: 2rem;
+    padding: 0;
+    margin-right: 0.5rem;
+  }
+  .fchide {
+    display: none;
+  }
+  .logBtn_nav {
+    width: auto;
+    padding: 0 0.5rem;
+    font-size: 0.8rem;
+  }
+  .logBtn_img {
+    display: none;
+  }
   .mainBlock_nav > div {
     font-size: 8px;
     width: 3rem;

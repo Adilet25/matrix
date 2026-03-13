@@ -276,8 +276,10 @@ const Navbar = () => {
             </>
           ) : (
             <button onClick={handleLogin} className="logBtn_nav">
-              Login with Faceit
-              <img src={fcsmlogo} alt="" />
+              <span>
+                Login <span className="fchide">with Faceit</span>
+              </span>
+              <img src={fcsmlogo} alt="e" className="logBtn_img" />
             </button>
           )}
         </div>

@@ -1,36 +1,110 @@
 .playCard_list {
   width: 100%;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  gap: 1.2rem;
   margin: 1rem 0;
 }
+
 .playCard {
+  position: relative;
   width: 100%;
-  height: 10vmax;
-  padding: 1rem;
-  background-color: #18181a;
+  padding: 1.5rem;
+  background: linear-gradient(180deg, #18181a, #0f0f10);
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-between;
   flex-direction: column;
-  border-radius: 15px;
-  border: dashed 2px white;
-  box-shadow: 0px 1rem 4rem #606060;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.4),
+    inset 0 0 40px rgba(255, 255, 255, 0.02);
+  transition: all 0.25s ease;
+  overflow: hidden;
+  border: dashed 2px;
 }
+
+/* animated grid background */
+
+.playCard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 28px 28px;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* glow border */
+
+.playCard::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 16px;
+  background: linear-gradient(120deg, transparent, #009dff7a, transparent);
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.playCard:hover::after {
+  opacity: 0.5;
+}
+
+/* hover */
+
 .playCard:hover {
-  transform: translateY(-10px);
+  transform: translateY(-10px) scale(1.02);
+  box-shadow:
+    0 25px 70px rgba(0, 0, 0, 0.6),
+    0 0 30px rgba(32, 191, 85, 0.2);
 }
+
+/* text */
+
+.playCard h2 {
+  font-size: 1.5rem;
+  color: white;
+  letter-spacing: 0.5px;
+}
+
+.playCard p {
+  text-align: center;
+  color: #a9a9a9;
+  font-size: 0.95rem;
+}
+
+/* button */
+
 .playCard_btn {
   cursor: pointer;
   width: 100%;
-  height: 2rem;
+  height: 2.4rem;
   border-radius: 10px;
-  background-color: #009fff;
+  border: none;
+  font-weight: 600;
+  background: #009fff;
   color: white;
+  transition: 0.2s;
+  z-index: 1;
 }
+
 .playCard_btn:hover {
-  box-shadow: 0px 5px 20px #009fff;
+  transform: translateY(-2px);
+  box-shadow: #009fff;
+}
+
+/* mobile */
+
+@media screen and (max-width: 768px) {
+  .playCard_list {
+    flex-direction: column;
+  }
+
+  .playCard {
+    width: 100%;
+  }
 }

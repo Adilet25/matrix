@@ -1,0 +1,195 @@
+.authStatusWrap {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.authPixelCard {
+  position: relative;
+  width: min(100%, 480px);
+  overflow: hidden;
+  border: 3px solid #2b2b2b;
+  background: #111;
+  box-shadow: 0 0 0 3px #000 inset;
+  padding: 16px;
+  image-rendering: pixelated;
+  font-family: "Press Start 2P", monospace;
+}
+
+.authOk {
+  border-color: #20bf55;
+  box-shadow:
+    0 0 18px rgba(32, 191, 85, 0.25),
+    0 0 0 3px #000 inset;
+}
+
+.authBad {
+  border-color: #ff4d4f;
+  box-shadow:
+    0 0 18px rgba(255, 77, 79, 0.2),
+    0 0 0 3px #000 inset;
+}
+
+.authScanline {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.03) 0px,
+    rgba(255, 255, 255, 0.03) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  animation: scanMove 5s linear infinite;
+}
+
+.authDots {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.authDots span {
+  width: 10px;
+  height: 10px;
+  display: block;
+  background: #444;
+  box-shadow: 2px 2px 0 #000;
+}
+
+.authOk .authDots span:nth-child(1) {
+  background: #20bf55;
+}
+
+.authBad .authDots span:nth-child(1) {
+  background: #ff4d4f;
+}
+
+.authMainRow {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.authAvatarPixel {
+  width: 54px;
+  height: 54px;
+  min-width: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1d1d1d;
+  border: 3px solid #000;
+  color: #fff;
+  font-size: 20px;
+  text-shadow: 2px 2px 0 #000;
+  animation: pixelPulse 1.2s steps(2) infinite;
+}
+
+.authOk .authAvatarPixel {
+  background: #164d28;
+}
+
+.authBad .authAvatarPixel {
+  background: #5a1b1b;
+}
+
+.authTextBlock {
+  min-width: 0;
+}
+
+.authTitle {
+  margin: 0 0 10px;
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.authSub {
+  margin: 0;
+  color: #bdbdbd;
+  font-size: 9px;
+  line-height: 1.8;
+  word-break: break-word;
+}
+
+.authProgress {
+  margin-top: 16px;
+  width: 100%;
+  height: 14px;
+  background: #222;
+  border: 2px solid #000;
+  overflow: hidden;
+}
+
+.authProgressBar {
+  height: 100%;
+  animation: loadBar 2s steps(12) infinite;
+}
+
+.barOk {
+  width: 100%;
+  background: repeating-linear-gradient(
+    to right,
+    #20bf55 0px,
+    #20bf55 10px,
+    #1a8b40 10px,
+    #1a8b40 20px
+  );
+}
+
+.barBad {
+  width: 38%;
+  background: repeating-linear-gradient(
+    to right,
+    #ff4d4f 0px,
+    #ff4d4f 10px,
+    #c73c3d 10px,
+    #c73c3d 20px
+  );
+}
+
+.authFooter {
+  margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: #9a9a9a;
+  font-size: 8px;
+  line-height: 1.6;
+  flex-wrap: wrap;
+}
+
+@keyframes pixelPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes scanMove {
+  0% {
+    transform: translateY(-8px);
+  }
+  100% {
+    transform: translateY(8px);
+  }
+}
+
+@keyframes loadBar {
+  0% {
+    filter: brightness(0.95);
+  }
+  50% {
+    filter: brightness(1.15);
+  }
+  100% {
+    filter: brightness(0.95);
+  }
+}
