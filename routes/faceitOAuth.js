@@ -67,7 +67,7 @@ router.get("/callback", async (req, res) => {
 
   try {
     const basicAuth = Buffer.from(
-      `${process.env.FACEIT_CLIENT_ID}:${process.env.FACEIT_CLIENT_SECRET}`
+      `${process.env.FACEIT_CLIENT_ID}:${process.env.FACEIT_CLIENT_SECRET}`,
     ).toString("base64");
 
     const tokenParams = new URLSearchParams({
@@ -86,7 +86,7 @@ router.get("/callback", async (req, res) => {
           "Content-Type": "application/x-www-form-urlencoded",
           Authorization: `Basic ${basicAuth}`,
         },
-      }
+      },
     );
 
     const { access_token } = tokenResponse.data;
@@ -98,7 +98,7 @@ router.get("/callback", async (req, res) => {
         headers: {
           Authorization: `Bearer ${access_token}`,
         },
-      }
+      },
     );
 
     const userInfo = userInfoResponse.data;
@@ -115,7 +115,7 @@ router.get("/callback", async (req, res) => {
         headers: {
           Authorization: `Bearer ${process.env.FACEIT_KEY}`,
         },
-      }
+      },
     );
 
     const player = playerResponse.data;
@@ -137,18 +137,25 @@ router.get("/callback", async (req, res) => {
       user.avatar = player.avatar || user.avatar;
       user.elo = cs2.faceit_elo || user.elo || 0;
       user.level = cs2.skill_level || user.level || 0;
-      user.country = (player.country || user.country || "unknown").toLowerCase();
+      user.country = (
+        player.country ||
+        user.country ||
+        "unknown"
+      ).toLowerCase();
     }
 
     await user.save();
 
     req.session.userId = user._id;
+
     delete req.session.faceitState;
     delete req.session.faceitCodeVerifier;
 
-    return res.redirect(
-      `${process.env.FRONTEND_URL}/auth/success?nickname=${encodeURIComponent(user.nickname)}`
-    );
+    req.session.save(() => {
+      res.redirect(
+        `${process.env.FRONTEND_URL}/auth/success?nickname=${encodeURIComponent(user.nickname)}`,
+      );
+    });
   } catch (err) {
     console.log("FACEIT OAuth error:", err.response?.data || err.message);
     return res.status(500).json({
