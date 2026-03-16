@@ -7,17 +7,20 @@ export default function AuthSuccess() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const loadUser = async () => {
+    const finishLogin = async () => {
       await fetchMe();
+
+      if (window.opener) {
+        window.opener.location.reload();
+        window.close();
+        return;
+      }
+
       navigate("/");
     };
 
-    loadUser();
+    finishLogin();
   }, [fetchMe, navigate]);
 
-  return (
-    <div style={{ padding: "24px" }}>
-      <h2>Logging you in...</h2>
-    </div>
-  );
+  return <div>Авторизация успешна...</div>;
 }
