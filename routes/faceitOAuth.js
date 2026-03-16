@@ -30,7 +30,7 @@ function buildAuthorizeUrl(state, codeChallenge) {
     code_challenge_method: "S256",
   });
 
-  return `https://accounts.faceit.com?${params.toString()}`;
+  return `https://accounts.faceit.com/oauth/authorize?${params.toString()}`;
 }
 
 // 1) redirect to FACEIT login
