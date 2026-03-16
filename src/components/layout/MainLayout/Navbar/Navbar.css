@@ -3,6 +3,9 @@
   padding: 1rem;
   cursor: pointer;
 }
+#mmr {
+  color: white !important;
+}
 
 .mainBlock {
   background-color: #101011;
