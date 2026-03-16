@@ -125,6 +125,7 @@ const Navbar = () => {
                     type="text"
                     placeholder="Поиск"
                     className="nav_search"
+                    id="1"
                   />
                   <svg
                     viewBox="0 0 24 24"
@@ -135,7 +136,9 @@ const Navbar = () => {
                   </svg>
                 </div>
                 <span>{user.nickname}</span>
-                <div id="mmr">{user.elo}</div>
+                <div id="mmr" style={{ color: "white !important" }}>
+                  {user.elo}
+                </div>
                 <div>
                   <div>
                     <Button
