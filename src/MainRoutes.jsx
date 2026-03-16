@@ -6,6 +6,7 @@ import LoginPage from "./pages/Login/LoginPage";
 import RegisterPage from "./pages/Register/RegisterPage";
 import AuthSuccess from "./pages/AuthSuccess";
 import CounterStrafe from "./pages/PlayPages/CounterStrafe";
+import PlayerProfile from "./components/sections/playerProfile/PlayerProfile";
 
 const MainRoutes = () => {
   //! Сюда добавлять ссылки на страницы
@@ -44,6 +45,11 @@ const MainRoutes = () => {
       link: "/playground/counter-strafe",
       element: <CounterStrafe />,
       id: 7,
+    },
+    {
+      link: "/player/:id",
+      element: <PlayerProfile />,
+      id: 8,
     },
   ];
 

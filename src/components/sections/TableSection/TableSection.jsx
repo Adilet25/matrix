@@ -3,6 +3,7 @@ import defaultAvatar from "../../../components/assets/ic_baseline-account-circle
 import faceitLogo from "../../assets/fcsmlogo.svg";
 import { useAuth } from "../../../context/AuthContext";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const API_URL = "https://matrix-8of6.onrender.com";
 
@@ -18,6 +19,8 @@ const TableSection = () => {
   const [statsLimit, setStatsLimit] = useState(30);
   const [playerStats, setPlayerStats] = useState(null);
   const [loadingStats, setLoadingStats] = useState(false);
+
+  const navigate = useNavigate();
 
   const openFaceitLogin = () => {
     window.open(
@@ -278,7 +281,11 @@ const TableSection = () => {
               </div>
             ) : (
               topPlayers.map((player, index) => (
-                <div className="mx-rank-row" key={player.player_id || index}>
+                <div
+                  className="mx-rank-row"
+                  key={player.player_id || index}
+                  onClick={() => navigate(`/player/${player.nickname}`)}
+                >
                   <div className="mx-rank-row__left">
                     <span className="mx-rank-row__position">
                       #{player.position || index + 1}

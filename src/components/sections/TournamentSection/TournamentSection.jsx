@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import "./Tournament.css";
+import TournamentBracket from "../TournamentBracket/TournamentBracket";
 
 const API_URL = "https://matrix-8of6.onrender.com";
 
@@ -440,60 +441,7 @@ const TournamentSection = () => {
               </div>
             </div>
 
-            <div className="mx-tour-bracket">
-              {loadingDetails ? (
-                <div className="mx-tour-empty">
-                  <p>LOADING BRACKET...</p>
-                </div>
-              ) : Object.keys(groupedRounds).length === 0 ? (
-                <div className="mx-tour-empty">
-                  <p>BRACKET NOT GENERATED</p>
-                </div>
-              ) : (
-                Object.keys(groupedRounds).map((round) => (
-                  <div className="mx-tour-round" key={round}>
-                    <div className="mx-tour-round__title">ROUND {round}</div>
-
-                    <div className="mx-tour-round__matches">
-                      {groupedRounds[round].map((match) => (
-                        <div className="mx-tour-match" key={match._id}>
-                          <div className="mx-tour-match__player">
-                            <span className="mx-tour-match__name">
-                              {match.participant1?.nickname || "TBD"}
-                            </span>
-                            <span className="mx-tour-match__score">
-                              {match.score1 ?? 0}
-                            </span>
-                          </div>
-
-                          <div className="mx-tour-match__divider">VS</div>
-
-                          <div className="mx-tour-match__player">
-                            <span className="mx-tour-match__name">
-                              {match.participant2?.nickname || "TBD"}
-                            </span>
-                            <span className="mx-tour-match__score">
-                              {match.score2 ?? 0}
-                            </span>
-                          </div>
-
-                          <div className="mx-tour-match__footer">
-                            <span className="mx-tour-match__status">
-                              {match.status}
-                            </span>
-                            <span className="mx-tour-match__winner">
-                              {match.winner?.nickname
-                                ? `WINNER: ${match.winner.nickname}`
-                                : "WINNER: TBD"}
-                            </span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
+            <TournamentBracket matches={matches} loading={loadingDetails} />
           </div>
         </div>
       </div>

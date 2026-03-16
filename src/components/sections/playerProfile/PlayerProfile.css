@@ -1,0 +1,600 @@
+.matrixProfilePage {
+  position: relative;
+  min-height: 100vh;
+  padding: 32px 20px 60px;
+  background:
+    radial-gradient(circle at top, rgba(0, 255, 170, 0.08), transparent 30%),
+    linear-gradient(180deg, #050505 0%, #09090b 100%);
+  color: #d7ffe9;
+  overflow: hidden;
+  font-family: "Orbitron", "Rajdhani", "Arial", sans-serif;
+}
+
+.matrixProfilePage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 255, 170, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 170, 0.05) 1px, transparent 1px);
+  background-size: 36px 36px;
+  pointer-events: none;
+  opacity: 0.18;
+}
+
+.matrixNoise {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.02) 0px,
+    rgba(255, 255, 255, 0.02) 1px,
+    transparent 2px,
+    transparent 4px
+  );
+  opacity: 0.18;
+}
+
+.matrixProfileContainer {
+  position: relative;
+  z-index: 2;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.matrixPanel {
+  position: relative;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 16, 14, 0.96),
+    rgba(7, 9, 10, 0.96)
+  );
+  border: 2px solid #1cffb7;
+  clip-path: polygon(
+    0 12px,
+    12px 0,
+    calc(100% - 12px) 0,
+    100% 12px,
+    100% calc(100% - 12px),
+    calc(100% - 12px) 100%,
+    12px 100%,
+    0 calc(100% - 12px)
+  );
+  padding: 24px;
+  box-shadow:
+    0 0 0 1px rgba(28, 255, 183, 0.15),
+    0 0 22px rgba(0, 255, 170, 0.12),
+    inset 0 0 24px rgba(0, 255, 170, 0.05);
+  overflow: hidden;
+}
+
+.matrixPanel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 255, 170, 0.05),
+    transparent 25%,
+    transparent 75%,
+    rgba(0, 255, 170, 0.04)
+  );
+}
+
+.matrixHeroPanel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+
+.matrixHeroLeft {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.matrixAvatarWrap {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  flex-shrink: 0;
+}
+
+.matrixAvatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border: 2px solid #1cffb7;
+  image-rendering: pixelated;
+  background: #0d0d0f;
+  clip-path: polygon(
+    0 10px,
+    10px 0,
+    calc(100% - 10px) 0,
+    100% 10px,
+    100% calc(100% - 10px),
+    calc(100% - 10px) 100%,
+    10px 100%,
+    0 calc(100% - 10px)
+  );
+}
+
+.matrixAvatarGlow {
+  position: absolute;
+  inset: -8px;
+  border: 1px solid rgba(28, 255, 183, 0.25);
+  filter: blur(10px);
+}
+
+.matrixTagRow {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.matrixTag {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid rgba(28, 255, 183, 0.35);
+  background: rgba(0, 255, 170, 0.08);
+  font-size: 12px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+
+.matrixPlayerName {
+  margin: 0;
+  font-size: clamp(28px, 4vw, 44px);
+  line-height: 1;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #ecfff8;
+  text-shadow: 0 0 12px rgba(28, 255, 183, 0.18);
+}
+
+.matrixMetaRow {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  color: #9effd9;
+  font-size: 13px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.matrixMetaRow span {
+  padding: 6px 10px;
+  border: 1px solid rgba(28, 255, 183, 0.18);
+  background: rgba(0, 255, 170, 0.04);
+}
+
+.matrixHeroRight {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(110px, 1fr));
+  gap: 14px;
+  min-width: 360px;
+}
+
+.matrixMiniInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid rgba(28, 255, 183, 0.25);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.matrixMiniLabel {
+  font-size: 11px;
+  color: #8debc9;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+}
+
+.matrixMiniValue {
+  font-size: 24px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.matrixStatsGrid,
+.matrixPerformanceGrid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.matrixStatCard {
+  position: relative;
+  padding: 18px 16px;
+  border: 2px solid rgba(28, 255, 183, 0.25);
+  background: linear-gradient(
+    180deg,
+    rgba(14, 18, 17, 0.95),
+    rgba(7, 8, 10, 0.95)
+  );
+  clip-path: polygon(
+    0 10px,
+    10px 0,
+    calc(100% - 10px) 0,
+    100% 10px,
+    100% calc(100% - 10px),
+    calc(100% - 10px) 100%,
+    10px 100%,
+    0 calc(100% - 10px)
+  );
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.matrixStatCard:hover {
+  transform: translateY(-4px);
+  border-color: rgba(28, 255, 183, 0.5);
+  box-shadow: 0 0 14px rgba(28, 255, 183, 0.12);
+}
+
+.matrixStatLabel {
+  font-size: 12px;
+  color: #8ff1cf;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.matrixStatValue {
+  font-size: 28px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.matrixStatSub {
+  margin-top: 10px;
+  color: #7eddbd;
+  font-size: 12px;
+  opacity: 0.85;
+  text-transform: uppercase;
+  letter-spacing: 0.9px;
+}
+
+.matrixSectionHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.matrixSectionHead h2 {
+  margin: 0;
+  font-size: 20px;
+  letter-spacing: 2px;
+  color: #ecfff8;
+  text-transform: uppercase;
+}
+
+.matrixTabs {
+  display: flex;
+  gap: 10px;
+}
+
+.matrixTabBtn {
+  min-width: 58px;
+  height: 40px;
+  border: 1px solid rgba(28, 255, 183, 0.28);
+  background: rgba(0, 255, 170, 0.04);
+  color: #b8ffe7;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  transition: 0.2s ease;
+  clip-path: polygon(
+    0 8px,
+    8px 0,
+    calc(100% - 8px) 0,
+    100% 8px,
+    100% calc(100% - 8px),
+    calc(100% - 8px) 100%,
+    8px 100%,
+    0 calc(100% - 8px)
+  );
+}
+
+.matrixTabBtn:hover,
+.matrixTabBtn.active {
+  color: #04110b;
+  background: #1cffb7;
+  box-shadow: 0 0 15px rgba(28, 255, 183, 0.24);
+}
+
+.matrixTwoCol {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 20px;
+}
+
+.matrixTableWrap {
+  overflow-x: auto;
+}
+
+.matrixTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
+
+.matrixTable thead th {
+  text-align: left;
+  font-size: 12px;
+  letter-spacing: 1.4px;
+  color: #8df0ce;
+  padding: 0 14px 8px;
+  text-transform: uppercase;
+}
+
+.matrixTable tbody tr {
+  background: rgba(255, 255, 255, 0.02);
+  transition: 0.2s ease;
+}
+
+.matrixTable tbody tr:hover {
+  background: rgba(28, 255, 183, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(28, 255, 183, 0.18);
+}
+
+.matrixTable tbody td {
+  padding: 14px;
+  border-top: 1px solid rgba(28, 255, 183, 0.12);
+  border-bottom: 1px solid rgba(28, 255, 183, 0.12);
+  color: #f1fff9;
+  font-size: 14px;
+}
+
+.matrixTable tbody td:first-child {
+  border-left: 1px solid rgba(28, 255, 183, 0.12);
+}
+
+.matrixTable tbody td:last-child {
+  border-right: 1px solid rgba(28, 255, 183, 0.12);
+}
+
+.matrixBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 62px;
+  height: 28px;
+  padding: 0 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border: 1px solid;
+}
+
+.matrixBadgeWin {
+  color: #9dffd8;
+  border-color: rgba(50, 255, 157, 0.35);
+  background: rgba(50, 255, 157, 0.08);
+}
+
+.matrixBadgeLoss {
+  color: #ff8f8f;
+  border-color: rgba(255, 80, 80, 0.35);
+  background: rgba(255, 80, 80, 0.08);
+}
+
+.matrixPositive {
+  color: #6dffb4;
+  font-weight: 700;
+}
+
+.matrixNegative {
+  color: #ff7b7b;
+  font-weight: 700;
+}
+
+.matrixTournamentList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.matrixTournamentCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid rgba(28, 255, 183, 0.16);
+  background: rgba(255, 255, 255, 0.02);
+  transition: 0.2s ease;
+}
+
+.matrixTournamentCard:hover {
+  background: rgba(28, 255, 183, 0.06);
+  border-color: rgba(28, 255, 183, 0.32);
+}
+
+.matrixTournamentName {
+  font-size: 15px;
+  color: #ffffff;
+  margin-bottom: 6px;
+}
+
+.matrixTournamentDate {
+  font-size: 12px;
+  color: #90eacb;
+  letter-spacing: 1px;
+}
+
+.matrixTournamentPlace {
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1cffb7;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.matrixMapGrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.matrixMapCard {
+  padding: 18px;
+  border: 1px solid rgba(28, 255, 183, 0.16);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.matrixMapTop,
+.matrixMapBottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.matrixMapTop {
+  margin-bottom: 14px;
+}
+
+.matrixMapName {
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.matrixMapMatches,
+.matrixMapBottom {
+  color: #8cebc9;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.matrixProgressBar {
+  width: 100%;
+  height: 12px;
+  margin-bottom: 12px;
+  border: 1px solid rgba(28, 255, 183, 0.18);
+  background: rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+
+.matrixProgressFill {
+  height: 100%;
+  background: linear-gradient(90deg, rgba(28, 255, 183, 0.4), #1cffb7);
+  box-shadow: 0 0 12px rgba(28, 255, 183, 0.25);
+}
+
+.matrixCorner {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #1cffb7;
+  z-index: 2;
+}
+
+.matrixCornerTL {
+  top: 8px;
+  left: 8px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.matrixCornerTR {
+  top: 8px;
+  right: 8px;
+  border-left: none;
+  border-bottom: none;
+}
+
+.matrixCornerBL {
+  bottom: 8px;
+  left: 8px;
+  border-right: none;
+  border-top: none;
+}
+
+.matrixCornerBR {
+  bottom: 8px;
+  right: 8px;
+  border-left: none;
+  border-top: none;
+}
+
+@media (max-width: 1200px) {
+  .matrixStatsGrid,
+  .matrixPerformanceGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .matrixMapGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .matrixTwoCol {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .matrixHeroPanel {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .matrixHeroRight {
+    min-width: unset;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .matrixStatsGrid,
+  .matrixPerformanceGrid,
+  .matrixMapGrid,
+  .matrixHeroRight {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .matrixHeroLeft {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .matrixPanel {
+    padding: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .matrixStatsGrid,
+  .matrixPerformanceGrid,
+  .matrixMapGrid,
+  .matrixHeroRight {
+    grid-template-columns: 1fr;
+  }
+
+  .matrixPlayerName {
+    font-size: 28px;
+  }
+}
