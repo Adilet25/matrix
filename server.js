@@ -40,7 +40,11 @@ const faceitOAuthRoutes = require("./routes/faceitOAuth");
 const faceitRoutes = require("./routes/faceit");
 const topPlayersRoutes = require("./routes/topPlayers");
 const playerStatsRoutes = require("./routes/playerStats");
+const tournamentRoutes = require("./routes/tournamentRoutes.js");
+const tournamentAdminRoutes = require("./routes/tournamentAdminRoutes");
 
+app.use("/api/admin/tournaments", tournamentAdminRoutes);
+app.use("/api/tournaments", tournamentRoutes);
 app.use("/api/player-stats", playerStatsRoutes);
 app.use("/api/leaderboard", leaderboardRoutes);
 app.use("/auth/faceit", faceitOAuthRoutes);
