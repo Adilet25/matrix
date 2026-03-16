@@ -87,7 +87,7 @@ const TableSection = () => {
   }, [user?.faceitId, statsLimit]);
 
   return (
-    <section className="mx-board">
+    <section className="mx-board containers">
       <div className="mx-board__header">
         <div>
           <p className="mx-board__eyebrow">[ MATRIX // LIVE TERMINAL ]</p>

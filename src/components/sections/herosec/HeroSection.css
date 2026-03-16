@@ -24,7 +24,7 @@
   inset: -20%;
   background: radial-gradient(
     circle,
-    rgba(32, 35, 191, 0.389),
+    rgba(191, 183, 32, 0.389),
     transparent 45%
   );
   animation: heroPulse 4s ease-in-out infinite;
@@ -61,7 +61,7 @@
 .heroCursorTarget::after {
   content: "";
   position: absolute;
-  background: #009fff;
+  background: #ffd84a;
 }
 
 .heroCursorTarget::before {
@@ -96,7 +96,7 @@
 }
 
 .heroLabel {
-  color: #009fff;
+  color: #ffd84a;
   letter-spacing: 0.18em;
   font-size: 12px;
   margin-bottom: 18px;
@@ -111,7 +111,7 @@
 }
 
 .heroTitle span {
-  color: #009fff;
+  color: #ffd84a;
   text-shadow: 0 0 22px rgba(32, 191, 85, 0.25);
 }
 
@@ -139,7 +139,7 @@
 }
 
 .heroBtnMain {
-  background: #009fff;
+  background: #ffd84a;
   color: #0a0a0a;
   border: none;
   font-weight: 700;

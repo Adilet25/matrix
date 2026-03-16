@@ -31,7 +31,7 @@
 }
 
 .systemLabel {
-  color: #20bf55;
+  color: #ffd84a;
   font-size: 12px;
   letter-spacing: 0.18em;
   margin-bottom: 10px;
@@ -132,7 +132,7 @@
 }
 
 .systemMode {
-  color: #20bf55;
+  color: #ffd84a;
   font-size: 12px;
   margin: 0 0 10px;
   letter-spacing: 0.12em;
@@ -202,7 +202,7 @@
 .systemCard:hover,
 .systemCard.active {
   transform: translateY(-2px);
-  border-color: #20bf55;
+  border-color: #ffd84a;
   box-shadow:
     0 0 18px rgba(32, 191, 85, 0.12),
     0 0 0 2px #000 inset;

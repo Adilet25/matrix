@@ -29,9 +29,9 @@ const features = [
 
 const LiveFeatures = () => {
   return (
-    <section className="liveFeatures">
+    <section className="liveFeatures containers">
       <div className="liveFeaturesHeader">
-        <p className="liveFeaturesLabel">LIVE FEATURES</p>
+        <p className="liveFeaturesLabel">[ MATRIX // LIVE FEATURES ]</p>
         <h2>Everything connected to your improvement</h2>
         <p className="liveFeaturesSub">
           Train mechanics, explore rankings, connect your FACEIT account and

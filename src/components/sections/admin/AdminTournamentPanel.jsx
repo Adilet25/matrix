@@ -220,7 +220,7 @@ const AdminTournamentPanel = () => {
   };
 
   return (
-    <section className="mx-admin">
+    <section className="mx-admin containers">
       <div className="mx-admin__header">
         <div>
           <p className="mx-admin__eyebrow">[ MATRIX // ADMIN NODE ]</p>

@@ -3,7 +3,7 @@
   margin: 4rem 0;
   position: relative;
   color: #f3f6fb;
-  font-family: "Press Start 2P", "VT323", "Share Tech Mono", monospace;
+  margin-top: 1rem !important;
 }
 
 .mx-match-admin::before {

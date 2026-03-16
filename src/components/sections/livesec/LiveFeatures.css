@@ -31,7 +31,7 @@
 }
 
 .liveFeaturesLabel {
-  color: #20bf55;
+  color: #ffd84a;
   font-size: 12px;
   letter-spacing: 0.18em;
   margin-bottom: 10px;
@@ -129,14 +129,14 @@
 .liveCoreBox {
   width: 180px;
   height: 180px;
-  border: 3px solid #1f3b29;
-  background: #101411;
+  border: 3px solid #3b3a1f;
+  background: #131410;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow:
     0 0 0 3px #000 inset,
-    0 0 24px rgba(32, 191, 85, 0.12);
+    0 0 24px rgba(191, 191, 32, 0.12);
   animation: corePulse 2.6s infinite steps(12);
 }
 
@@ -144,10 +144,10 @@
   width: 90px;
   height: 90px;
   background:
-    linear-gradient(45deg, #20bf55 25%, transparent 25%),
-    linear-gradient(-45deg, #20bf55 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, #20bf55 75%),
-    linear-gradient(-45deg, transparent 75%, #20bf55 75%);
+    linear-gradient(45deg, #ffd84a 25%, transparent 25%),
+    linear-gradient(-45deg, #ffd84a 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #ffd84a 75%),
+    linear-gradient(-45deg, transparent 75%, #ffd84a 75%);
   background-size: 18px 18px;
   background-position:
     0 0,

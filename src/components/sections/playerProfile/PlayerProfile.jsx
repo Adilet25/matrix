@@ -98,7 +98,7 @@ const PlayerProfile = () => {
 
   if (loading) {
     return (
-      <div className="matrixProfilePage">
+      <div className="matrixProfilePage ">
         <div className="matrixNoise" />
 
         <div className="matrixProfileContainer">

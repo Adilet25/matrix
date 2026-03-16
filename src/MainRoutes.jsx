@@ -7,6 +7,8 @@ import RegisterPage from "./pages/Register/RegisterPage";
 import AuthSuccess from "./pages/AuthSuccess";
 import CounterStrafe from "./pages/PlayPages/CounterStrafe";
 import PlayerProfile from "./components/sections/playerProfile/PlayerProfile";
+import AdminPage from "./pages/Admin/AdminPage";
+import TournamentsPage from "./pages/Tournaments/TournamentsPage";
 
 const MainRoutes = () => {
   //! Сюда добавлять ссылки на страницы
@@ -50,6 +52,16 @@ const MainRoutes = () => {
       link: "/player/:id",
       element: <PlayerProfile />,
       id: 8,
+    },
+    {
+      link: "/admin",
+      element: <AdminPage />,
+      id: 9,
+    },
+    {
+      link: "/tournaments",
+      element: <TournamentsPage />,
+      id: 9,
     },
   ];
 

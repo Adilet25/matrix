@@ -12,12 +12,13 @@ import { useAuth } from "../../context/AuthContext";
 import LiveFeatures from "../../components/sections/livesec/LiveFeatures";
 import AdminTournamentPanel from "../../components/sections/admin/AdminTournamentPanel";
 import AdminMatchPanel from "../../components/sections/admin/AdminMatchPanel";
+import MatrixLoader from "../../components/utils/loader/MatrixLoader";
 
 const HomePage = () => {
   const { user, loading } = useAuth();
 
   if (loading) {
-    return <p style={{ padding: "24px" }}>Loading...</p>;
+    return <MatrixLoader />;
   }
   return (
     <div className="">
@@ -27,6 +28,7 @@ const HomePage = () => {
         <p style={{ marginTop: "20px" }}>You are not logged in.</p>
       )} */}
       <HeroSection />
+
       <SystemOverview />
       {/* <div className="authStatusWrap">
         <div className={`authPixelCard ${user ? "authOk" : "authBad"}`}>
@@ -63,15 +65,11 @@ const HomePage = () => {
           </div>
         </div>
       </div> */}
-
       <LiveFeatures />
       <TableSection />
       <TournamentSection />
-      <AdminTournamentPanel />
-      <AdminMatchPanel />
-
-      <MainSection />
       <NewsSection />
+      <MainSection />
     </div>
   );
 };

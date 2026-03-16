@@ -51,7 +51,7 @@ const HeroSection = () => {
 
       <div className="heroContent">
         <div className="heroLeft">
-          <p className="heroLabel">FACEIT TRAINING PLATFORM</p>
+          <p className="heroLabel">[ MATRIX // FACEIT TRAINING PLATFORM ]</p>
 
           <h1 className="heroTitle">
             Train your <span>Counter-Strafe</span>, improve your mechanics,

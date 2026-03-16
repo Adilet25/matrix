@@ -84,7 +84,7 @@ const Navbar = () => {
             </svg>
             <p>МАТЧИ</p>
           </div>
-          <div onClick={() => navigate("/login")}>
+          <div onClick={() => navigate("/tournaments")}>
             <svg
               viewBox="0 0 36 36"
               xmlns="http://www.w3.org/2000/svg"
@@ -135,11 +135,7 @@ const Navbar = () => {
                   </svg>
                 </div>
                 <span>{user.nickname}</span>
-                <div id="mmr">
-                  MMR
-                  <br />
-                  {user.elo}
-                </div>
+                <div id="mmr">{user.elo}</div>
                 <div>
                   <div>
                     <Button
@@ -168,7 +164,12 @@ const Navbar = () => {
                         },
                       }}
                     >
-                      <MenuItem onClick={handleClose}>
+                      <MenuItem
+                        onClick={() => {
+                          navigate(`/profile/${user.nickname}`);
+                          handleClose();
+                        }}
+                      >
                         <div className="profileDrop">
                           <img src={profileicon} alt="error" />
                           Профиль
@@ -234,6 +235,7 @@ const Navbar = () => {
                     sx={{ width: 250 }}
                     role="presentation"
                     onClick={() => {
+                      navigate(`/profile/${user.nickname}`);
                       toggleDrawer(false);
                     }}
                   >
@@ -275,7 +277,7 @@ const Navbar = () => {
               </div>
             </>
           ) : (
-            <button onClick={handleLogin} className="logBtn_nav">
+            <button onClick={handleLogin} className="mx-loginbox__button">
               <span>
                 Login <span className="fchide">with Faceit</span>
               </span>

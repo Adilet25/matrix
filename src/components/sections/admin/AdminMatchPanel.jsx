@@ -148,7 +148,7 @@ const AdminMatchPanel = () => {
   };
 
   return (
-    <section className="mx-match-admin">
+    <section className="mx-match-admin containers">
       <div className="mx-match-admin__header">
         <div>
           <p className="mx-match-admin__eyebrow">[ MATRIX // MATCH ADMIN ]</p>

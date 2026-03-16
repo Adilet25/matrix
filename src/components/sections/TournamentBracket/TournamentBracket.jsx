@@ -30,7 +30,7 @@ const TournamentBracket = ({ matches = [], loading = false }) => {
   }
 
   return (
-    <div className="mx-bracket-shell">
+    <div className="mx-bracket-shell ">
       <div className="mx-bracket-scroll">
         <div className="mx-bracket">
           {sortedRounds.map((roundNumber, roundIndex) => {

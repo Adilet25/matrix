@@ -187,7 +187,7 @@ const TournamentSection = () => {
   };
 
   return (
-    <section className="mx-tour">
+    <section className="mx-tour containers">
       <div className="mx-tour__header">
         <div>
           <p className="mx-tour__eyebrow">[ MATRIX // TOURNAMENT NODE ]</p>

@@ -38,9 +38,9 @@ const SystemOverview = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="systemOverview">
+    <section className="systemOverview containers">
       <div className="systemHeader">
-        <p className="systemLabel">SYSTEM OVERVIEW</p>
+        <p className="systemLabel">[ MATRIX // SYSTEM OVERVIEW ]</p>
         <h2>Build your mechanics step by step</h2>
         <p className="systemSub">
           Choose a training mode and upgrade the core skills that matter in

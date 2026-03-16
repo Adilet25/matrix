@@ -53,7 +53,7 @@
     rgba(10, 16, 14, 0.96),
     rgba(7, 9, 10, 0.96)
   );
-  border: 2px solid #1cffb7;
+  border: 2px solid #ffd84a;
   clip-path: polygon(
     0 12px,
     12px 0,
@@ -66,8 +66,8 @@
   );
   padding: 24px;
   box-shadow:
-    0 0 0 1px rgba(28, 255, 183, 0.15),
-    0 0 22px rgba(0, 255, 170, 0.12),
+    0 0 0 1px rgba(255, 229, 28, 0.16),
+    0 0 22px rgba(255, 229, 28, 0.12),
     inset 0 0 24px rgba(0, 255, 170, 0.05);
   overflow: hidden;
 }
@@ -111,7 +111,7 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  border: 2px solid #1cffb7;
+  border: 2px solid #ffd84a;
   image-rendering: pixelated;
   background: #0d0d0f;
   clip-path: polygon(
@@ -129,7 +129,7 @@
 .matrixAvatarGlow {
   position: absolute;
   inset: -8px;
-  border: 1px solid rgba(28, 255, 183, 0.25);
+  border: 1px solid rgba(255, 229, 28, 0.16);
   filter: blur(10px);
 }
 
@@ -145,7 +145,7 @@
   align-items: center;
   height: 28px;
   padding: 0 10px;
-  border: 1px solid rgba(28, 255, 183, 0.35);
+  border: 1px solid rgba(255, 229, 28, 0.16);
   background: rgba(0, 255, 170, 0.08);
   font-size: 12px;
   letter-spacing: 1.4px;
@@ -159,7 +159,7 @@
   letter-spacing: 2px;
   text-transform: uppercase;
   color: #ecfff8;
-  text-shadow: 0 0 12px rgba(28, 255, 183, 0.18);
+  text-shadow: 0 0 12px rgba(255, 229, 28, 0.16);
 }
 
 .matrixMetaRow {
@@ -175,7 +175,7 @@
 
 .matrixMetaRow span {
   padding: 6px 10px;
-  border: 1px solid rgba(28, 255, 183, 0.18);
+  border: 1px solid rgba(255, 229, 28, 0.16);
   background: rgba(0, 255, 170, 0.04);
 }
 
@@ -191,7 +191,7 @@
   flex-direction: column;
   gap: 8px;
   padding: 14px;
-  border: 1px solid rgba(28, 255, 183, 0.25);
+  border: 1px solid rgba(255, 229, 28, 0.16);
   background: rgba(0, 0, 0, 0.2);
 }
 
@@ -218,7 +218,7 @@
 .matrixStatCard {
   position: relative;
   padding: 18px 16px;
-  border: 2px solid rgba(28, 255, 183, 0.25);
+  border: 2px solid rgba(28, 255, 183, 0.278);
   background: linear-gradient(
     180deg,
     rgba(14, 18, 17, 0.95),
@@ -242,8 +242,8 @@
 
 .matrixStatCard:hover {
   transform: translateY(-4px);
-  border-color: rgba(28, 255, 183, 0.5);
-  box-shadow: 0 0 14px rgba(28, 255, 183, 0.12);
+  border-color: rgba(255, 229, 28, 0.345);
+  box-shadow: 0 0 14px rgba(255, 229, 28, 0.16);
 }
 
 .matrixStatLabel {
@@ -295,7 +295,7 @@
 .matrixTabBtn {
   min-width: 58px;
   height: 40px;
-  border: 1px solid rgba(28, 255, 183, 0.28);
+  border: 1px solid rgba(255, 229, 28, 0.16);
   background: rgba(0, 255, 170, 0.04);
   color: #b8ffe7;
   cursor: pointer;
@@ -318,8 +318,8 @@
 .matrixTabBtn:hover,
 .matrixTabBtn.active {
   color: #04110b;
-  background: #1cffb7;
-  box-shadow: 0 0 15px rgba(28, 255, 183, 0.24);
+  background: #ffd84a;
+  box-shadow: 0 0 15px rgba(246, 229, 100, 0.16);
 }
 
 .matrixTwoCol {
@@ -354,23 +354,23 @@
 
 .matrixTable tbody tr:hover {
   background: rgba(28, 255, 183, 0.08);
-  box-shadow: inset 0 0 0 1px rgba(28, 255, 183, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(255, 229, 28, 0.16);
 }
 
 .matrixTable tbody td {
   padding: 14px;
-  border-top: 1px solid rgba(28, 255, 183, 0.12);
-  border-bottom: 1px solid rgba(28, 255, 183, 0.12);
+  border-top: 1px solid rgba(255, 229, 28, 0.16);
+  border-bottom: 1px solid rgba(255, 229, 28, 0.16);
   color: #f1fff9;
   font-size: 14px;
 }
 
 .matrixTable tbody td:first-child {
-  border-left: 1px solid rgba(28, 255, 183, 0.12);
+  border-left: 1px solid rgba(255, 229, 28, 0.16);
 }
 
 .matrixTable tbody td:last-child {
-  border-right: 1px solid rgba(28, 255, 183, 0.12);
+  border-right: 1px solid rgba(255, 229, 28, 0.16);
 }
 
 .matrixBadge {
@@ -421,14 +421,14 @@
   align-items: center;
   gap: 12px;
   padding: 16px;
-  border: 1px solid rgba(28, 255, 183, 0.16);
+  border: 1px solid rgba(255, 229, 28, 0.16);
   background: rgba(255, 255, 255, 0.02);
   transition: 0.2s ease;
 }
 
 .matrixTournamentCard:hover {
   background: rgba(28, 255, 183, 0.06);
-  border-color: rgba(28, 255, 183, 0.32);
+  border-color: rgba(255, 229, 28, 0.16);
 }
 
 .matrixTournamentName {
@@ -447,7 +447,7 @@
   white-space: nowrap;
   font-size: 13px;
   font-weight: 700;
-  color: #1cffb7;
+  color: #ffd84a;
   letter-spacing: 1px;
   text-transform: uppercase;
 }
@@ -460,7 +460,7 @@
 
 .matrixMapCard {
   padding: 18px;
-  border: 1px solid rgba(28, 255, 183, 0.16);
+  border: 1px solid rgba(255, 229, 28, 0.16);
   background: rgba(255, 255, 255, 0.02);
 }
 
@@ -485,7 +485,7 @@
 
 .matrixMapMatches,
 .matrixMapBottom {
-  color: #8cebc9;
+  color: #e0c665;
   font-size: 12px;
   letter-spacing: 1px;
 }
@@ -494,22 +494,22 @@
   width: 100%;
   height: 12px;
   margin-bottom: 12px;
-  border: 1px solid rgba(28, 255, 183, 0.18);
+  border: 1px solid rgba(255, 229, 28, 0.16);
   background: rgba(0, 0, 0, 0.35);
   overflow: hidden;
 }
 
 .matrixProgressFill {
   height: 100%;
-  background: linear-gradient(90deg, rgba(28, 255, 183, 0.4), #1cffb7);
-  box-shadow: 0 0 12px rgba(28, 255, 183, 0.25);
+  background: linear-gradient(90deg, rgba(255, 247, 28, 0.4), #ffd84a);
+  box-shadow: 0 0 12px #ffd84a42;
 }
 
 .matrixCorner {
   position: absolute;
   width: 12px;
   height: 12px;
-  border: 2px solid #1cffb7;
+  border: 2px solid #ffd84a;
   z-index: 2;
 }
 
