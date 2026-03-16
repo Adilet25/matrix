@@ -1,35 +1,35 @@
 import "./TableSection.css";
-import pro from "../../../components/assets/ic_baseline-account-circle.svg";
-import fcsmlogo from "../../assets/fcsmlogo.svg";
+import defaultAvatar from "../../../components/assets/ic_baseline-account-circle.svg";
+import faceitLogo from "../../assets/fcsmlogo.svg";
 import { useAuth } from "../../../context/AuthContext";
 import { useEffect, useState } from "react";
 
 const API_URL = "https://matrix-8of6.onrender.com";
 
 const TableSection = () => {
-  const { user } = useAuth();
-
-  const [topPlayers, setTopPlayers] = useState([]);
-  const [loadingTop, setLoadingTop] = useState(true);
+  const { user, apiUrl } = useAuth();
 
   const [region, setRegion] = useState("EU");
   const [country, setCountry] = useState("kg");
 
+  const [topPlayers, setTopPlayers] = useState([]);
+  const [loadingTopPlayers, setLoadingTopPlayers] = useState(true);
+
   const [statsLimit, setStatsLimit] = useState(30);
   const [playerStats, setPlayerStats] = useState(null);
   const [loadingStats, setLoadingStats] = useState(false);
-  const { apiUrl } = useAuth();
 
-  const handleLogin = () => {
+  const openFaceitLogin = () => {
     window.open(
       `${apiUrl}/auth/faceit/login`,
       "faceitLogin",
       "width=500,height=700",
     );
   };
+
   useEffect(() => {
     const fetchTopPlayers = async () => {
-      setLoadingTop(true);
+      setLoadingTopPlayers(true);
 
       try {
         let url = `${API_URL}/api/leaderboard?region=${region}&limit=10`;
@@ -46,7 +46,7 @@ const TableSection = () => {
         console.error("Top players fetch error:", error);
         setTopPlayers([]);
       } finally {
-        setLoadingTop(false);
+        setLoadingTopPlayers(false);
       }
     };
 
@@ -55,7 +55,10 @@ const TableSection = () => {
 
   useEffect(() => {
     const fetchPlayerStats = async () => {
-      if (!user?.faceitId) return;
+      if (!user?.faceitId) {
+        setPlayerStats(null);
+        return;
+      }
 
       setLoadingStats(true);
 
@@ -81,54 +84,88 @@ const TableSection = () => {
   }, [user?.faceitId, statsLimit]);
 
   return (
-    <div className="containers">
-      <p className="tablename" style={{ margin: "1rem 0" }}>
-        Таблица
-      </p>
-
-      <div className="tableSec">
-        <div className="table0 tableshab">
-          <img
-            src={user?.avatar || pro}
-            alt="profile"
-            width="80"
-            style={{ borderRadius: "50%", marginBottom: "12px" }}
-          />
-
-          <h2>{user?.nickname || "Guest"}</h2>
-          <p>Country: {user?.country || "-"}</p>
-          <p>ELO: {user?.elo ?? "-"}</p>
-          <p>Level: {user?.level ?? "-"}</p>
+    <section className="mx-board">
+      <div className="mx-board__header">
+        <div>
+          <p className="mx-board__eyebrow">[ MATRIX // LIVE TERMINAL ]</p>
+          <h2 className="mx-board__title">PLAYER DATA GRID</h2>
         </div>
+        <div className="mx-board__signal">
+          <span className="mx-board__signal-dot" />
+          ACTIVE
+        </div>
+      </div>
 
-        <div className="table01 tableshab">
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              flexWrap: "wrap",
-              gap: "10px",
-              marginBottom: "12px",
-            }}
-          >
-            <p style={{ margin: 0 }}>Статы за последние матчи</p>
+      <div className="mx-grid">
+        <article className="mx-panel mx-panel--profile">
+          <div className="mx-panel__chrome">
+            <span>IDENTITY</span>
+            <span>UNIT_01</span>
+          </div>
 
-            <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+          <div className="mx-profile">
+            <div className="mx-profile__avatar-wrap">
+              <img
+                src={user?.avatar || defaultAvatar}
+                alt="profile"
+                className="mx-profile__avatar"
+              />
+            </div>
+
+            <div className="mx-profile__name-block">
+              <h3 className="mx-profile__nickname">
+                {user?.nickname || "Guest"}
+              </h3>
+              <p className="mx-profile__sub">FACEIT OPERATOR PROFILE</p>
+            </div>
+
+            <div className="mx-profile__stats">
+              <div className="mx-profile__stat">
+                <span className="mx-profile__label">Country</span>
+                <span className="mx-profile__value">
+                  {user?.country || "--"}
+                </span>
+              </div>
+
+              <div className="mx-profile__stat">
+                <span className="mx-profile__label">ELO</span>
+                <span className="mx-profile__value mx-profile__value--gold">
+                  {user?.elo ?? "--"}
+                </span>
+              </div>
+
+              <div className="mx-profile__stat">
+                <span className="mx-profile__label">Level</span>
+                <span className="mx-profile__value">{user?.level ?? "--"}</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article className="mx-panel mx-panel--stats">
+          <div className="mx-panel__chrome">
+            <span>ANALYTICS</span>
+            <span>RECENT_MATCHES</span>
+          </div>
+
+          <div className="mx-section-head">
+            <h3 className="mx-section-head__title">RECENT STATS</h3>
+
+            <div className="mx-switcher">
               <button
-                style={{ cursor: "pointer" }}
+                className={`mx-chip ${statsLimit === 30 ? "mx-chip--active" : ""}`}
                 onClick={() => setStatsLimit(30)}
               >
                 30
               </button>
               <button
-                style={{ cursor: "pointer" }}
+                className={`mx-chip ${statsLimit === 60 ? "mx-chip--active" : ""}`}
                 onClick={() => setStatsLimit(60)}
               >
                 60
               </button>
               <button
-                style={{ cursor: "pointer" }}
+                className={`mx-chip ${statsLimit === 100 ? "mx-chip--active" : ""}`}
                 onClick={() => setStatsLimit(100)}
               >
                 100
@@ -137,117 +174,187 @@ const TableSection = () => {
           </div>
 
           {loadingStats ? (
-            <p>Загрузка статистики...</p>
+            <div className="mx-empty">
+              <div className="mx-loader" />
+              <p>LOADING PLAYER STATS...</p>
+            </div>
           ) : !playerStats ? (
-            <button onClick={handleLogin} className="logBtn_nav">
-              Зайдите в аккаунт
-              <img src={fcsmlogo} alt="" />
-            </button>
+            <div className="mx-loginbox">
+              <p className="mx-loginbox__text">
+                CONNECT FACEIT TO UNLOCK YOUR MATCH ANALYTICS
+              </p>
+              <button className="mx-loginbox__button" onClick={openFaceitLogin}>
+                <span>LOGIN WITH FACEIT</span>
+                <img src={faceitLogo} alt="FACEIT" />
+              </button>
+            </div>
           ) : (
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(2, 1fr)",
-                gap: "12px",
-              }}
-            >
-              <div className="miniStat">
-                <strong>Matches</strong>
-                <p>{playerStats.totalMatches}</p>
+            <div className="mx-stats-grid">
+              <div className="mx-stat-card">
+                <span className="mx-stat-card__label">MATCHES</span>
+                <strong className="mx-stat-card__value">
+                  {playerStats.totalMatches}
+                </strong>
               </div>
 
-              <div className="miniStat">
-                <strong>Winrate</strong>
-                <p>{playerStats.winrate}%</p>
+              <div className="mx-stat-card">
+                <span className="mx-stat-card__label">WINRATE</span>
+                <strong className="mx-stat-card__value">
+                  {playerStats.winrate}%
+                </strong>
               </div>
 
-              <div className="miniStat">
-                <strong>Wins / Losses</strong>
-                <p>
+              <div className="mx-stat-card">
+                <span className="mx-stat-card__label">WINS / LOSSES</span>
+                <strong className="mx-stat-card__value">
                   {playerStats.wins} / {playerStats.losses}
-                </p>
+                </strong>
               </div>
 
-              <div className="miniStat">
-                <strong>K/D</strong>
-                <p>{playerStats.kd}</p>
+              <div className="mx-stat-card">
+                <span className="mx-stat-card__label">K / D</span>
+                <strong className="mx-stat-card__value">
+                  {playerStats.kd}
+                </strong>
               </div>
 
-              <div className="miniStat" style={{ gridColumn: "1 / -1" }}>
-                <strong>Avg Kills</strong>
-                <p>{playerStats.avgKills}</p>
+              <div className="mx-stat-card mx-stat-card--wide">
+                <span className="mx-stat-card__label">AVG KILLS</span>
+                <strong className="mx-stat-card__value">
+                  {playerStats.avgKills}
+                </strong>
               </div>
             </div>
           )}
-        </div>
+        </article>
 
-        <div className="table1 tableshab">
-          <p>Топ игроки FACEIT</p>
-
-          <div
-            style={{
-              display: "flex",
-              gap: "10px",
-              marginBottom: "12px",
-              flexWrap: "wrap",
-            }}
-          >
-            <select
-              value={region}
-              style={{ background: "#000" }}
-              onChange={(e) => setRegion(e.target.value)}
-            >
-              <option value="EU">EU</option>
-              <option value="NA">NA</option>
-              <option value="SA">SA</option>
-              <option value="OCE">OCE</option>
-              <option value="SEA">SEA</option>
-            </select>
-
-            <select
-              value={country}
-              onChange={(e) => setCountry(e.target.value)}
-              style={{ background: "#000" }}
-            >
-              <option value="">All countries</option>
-              <option value="kg">Kyrgyzstan</option>
-              <option value="kz">Kazakhstan</option>
-              <option value="uz">Uzbekistan</option>
-              <option value="ru">Russia</option>
-              <option value="tr">Turkey</option>
-              <option value="us">USA</option>
-            </select>
+        <article className="mx-panel mx-panel--leaders">
+          <div className="mx-panel__chrome">
+            <span>LEADERBOARD</span>
+            <span>RANKING_TOP_10</span>
           </div>
 
-          <div className="tableSec_list">
-            {loadingTop ? (
-              <p>Загрузка...</p>
+          <div className="mx-section-head mx-section-head--stack">
+            <h3 className="mx-section-head__title">TOP FACEIT PLAYERS</h3>
+
+            <div className="mx-filters">
+              <select
+                className="mx-select"
+                value={region}
+                onChange={(e) => setRegion(e.target.value)}
+              >
+                <option value="EU">EU</option>
+                <option value="NA">NA</option>
+                <option value="SA">SA</option>
+                <option value="OCE">OCE</option>
+                <option value="SEA">SEA</option>
+              </select>
+
+              <select
+                className="mx-select"
+                value={country}
+                onChange={(e) => setCountry(e.target.value)}
+              >
+                <option value="">ALL COUNTRIES</option>
+                <option value="kg">KYRGYZSTAN</option>
+                <option value="kz">KAZAKHSTAN</option>
+                <option value="uz">UZBEKISTAN</option>
+                <option value="ru">RUSSIA</option>
+                <option value="tr">TURKEY</option>
+                <option value="us">USA</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="mx-ranking">
+            {loadingTopPlayers ? (
+              <div className="mx-empty">
+                <div className="mx-loader" />
+                <p>SYNCING LEADERBOARD...</p>
+              </div>
             ) : topPlayers.length === 0 ? (
-              <p>Пока нет данных</p>
+              <div className="mx-empty">
+                <p>NO DATA AVAILABLE</p>
+              </div>
             ) : (
-              <ol>
-                {topPlayers.map((player, index) => (
-                  <li key={player.player_id || index}>
-                    #{player.position || index + 1} {player.nickname}{" "}
-                    <span className="yellowmmr">{player.faceit_elo} MMR</span>
-                  </li>
-                ))}
-              </ol>
+              topPlayers.map((player, index) => (
+                <div className="mx-rank-row" key={player.player_id || index}>
+                  <div className="mx-rank-row__left">
+                    <span className="mx-rank-row__position">
+                      #{player.position || index + 1}
+                    </span>
+                    <span className="mx-rank-row__nickname">
+                      {player.nickname}
+                    </span>
+                  </div>
+
+                  <div className="mx-rank-row__right">
+                    <span className="mx-rank-row__mmr">
+                      {player.faceit_elo} MMR
+                    </span>
+                  </div>
+                </div>
+              ))
             )}
           </div>
-        </div>
+        </article>
 
-        <div className="table2 tableshab">
-          <p>Последние матчи</p>
-
-          <div className="table2_matches">
-            <p className="table2win">Adilet B. 1200MMR</p>
-            <p>3:0</p>
-            <p className="table2ls">100MMR Adilet U.</p>
+        <article className="mx-panel mx-panel--matches">
+          <div className="mx-panel__chrome">
+            <span>BATTLE FEED</span>
+            <span>LAST_GAMES</span>
           </div>
-        </div>
+
+          <div className="mx-section-head">
+            <h3 className="mx-section-head__title">LATEST MATCHES</h3>
+          </div>
+
+          <div className="mx-feed">
+            <div className="mx-feed-card">
+              <div className="mx-feed-card__team mx-feed-card__team--win">
+                <span className="mx-feed-card__name">Adilet B.</span>
+                <span className="mx-feed-card__meta">1200 MMR</span>
+              </div>
+
+              <div className="mx-feed-card__score">3 : 0</div>
+
+              <div className="mx-feed-card__team mx-feed-card__team--lose">
+                <span className="mx-feed-card__name">Adilet U.</span>
+                <span className="mx-feed-card__meta">100 MMR</span>
+              </div>
+            </div>
+
+            <div className="mx-feed-card">
+              <div className="mx-feed-card__team mx-feed-card__team--win">
+                <span className="mx-feed-card__name">Matrix Prime</span>
+                <span className="mx-feed-card__meta">1450 MMR</span>
+              </div>
+
+              <div className="mx-feed-card__score">13 : 9</div>
+
+              <div className="mx-feed-card__team mx-feed-card__team--lose">
+                <span className="mx-feed-card__name">Enemy Squad</span>
+                <span className="mx-feed-card__meta">1360 MMR</span>
+              </div>
+            </div>
+
+            <div className="mx-feed-card">
+              <div className="mx-feed-card__team mx-feed-card__team--win">
+                <span className="mx-feed-card__name">Neo Aim</span>
+                <span className="mx-feed-card__meta">1320 MMR</span>
+              </div>
+
+              <div className="mx-feed-card__score">16 : 12</div>
+
+              <div className="mx-feed-card__team mx-feed-card__team--lose">
+                <span className="mx-feed-card__name">Rush Team</span>
+                <span className="mx-feed-card__meta">1280 MMR</span>
+              </div>
+            </div>
+          </div>
+        </article>
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -9,6 +9,9 @@ import SystemOverview from "../../components/sections/syssec/SystemOverview";
 import "./HomePage.css";
 
 import { useAuth } from "../../context/AuthContext";
+import LiveFeatures from "../../components/sections/livesec/LiveFeatures";
+import AdminTournamentPanel from "../../components/sections/admin/AdminTournamentPanel";
+import AdminMatchPanel from "../../components/sections/admin/AdminMatchPanel";
 
 const HomePage = () => {
   const { user, loading } = useAuth();
@@ -25,7 +28,7 @@ const HomePage = () => {
       )} */}
       <HeroSection />
       <SystemOverview />
-      <div className="authStatusWrap">
+      {/* <div className="authStatusWrap">
         <div className={`authPixelCard ${user ? "authOk" : "authBad"}`}>
           <div className="authScanline" />
           <div className="authDots">
@@ -59,10 +62,14 @@ const HomePage = () => {
             <span>{user ? "READY" : "WAITING"}</span>
           </div>
         </div>
-      </div>
-      <PlaySection />
+      </div> */}
+
+      <LiveFeatures />
       <TableSection />
       <TournamentSection />
+      <AdminTournamentPanel />
+      <AdminMatchPanel />
+
       <MainSection />
       <NewsSection />
     </div>

@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import "./SystemOverview.css";
 
 const cards = [
@@ -9,6 +11,7 @@ const cards = [
     desc: "Train perfect stop timing and directional control like in real CS rounds.",
     stats: ["A/D Switch", "Stop Accuracy", "Movement Discipline"],
     color: "green",
+    link: "/playground/counter-strafe",
   },
   {
     id: "reaction",
@@ -17,6 +20,7 @@ const cards = [
     desc: "Improve reaction speed, target response and decision timing under pressure.",
     stats: ["Reaction Speed", "Trigger Timing", "Focus"],
     color: "blue",
+    link: "/playground/reaction",
   },
   {
     id: "aim",
@@ -25,11 +29,13 @@ const cards = [
     desc: "Develop flicks, precision and target control with repeated practice loops.",
     stats: ["Flick Control", "Precision", "Micro Aim"],
     color: "red",
+    link: "/playground/aim",
   },
 ];
 
 const SystemOverview = () => {
   const [activeCard, setActiveCard] = useState(cards[0]);
+  const navigate = useNavigate();
 
   return (
     <section className="systemOverview">
@@ -78,7 +84,9 @@ const SystemOverview = () => {
               key={card.id}
               className={`systemCard ${activeCard.id === card.id ? "active" : ""}`}
               onMouseEnter={() => setActiveCard(card)}
-              onClick={() => setActiveCard(card)}
+              onClick={() => {
+                (setActiveCard(card), navigate(card.link));
+              }}
             >
               <div className="systemCardTop">
                 <span className={`systemBadge ${card.color}`}>

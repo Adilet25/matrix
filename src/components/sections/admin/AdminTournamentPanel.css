@@ -1,0 +1,428 @@
+.mx-admin {
+  width: 100%;
+  margin: 4rem 0;
+  position: relative;
+  color: #f3f6fb;
+  font-family: "Press Start 2P", "VT323", "Share Tech Mono", monospace;
+}
+
+.mx-admin::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 28px 28px;
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+.mx-admin::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.015) 0px,
+    rgba(255, 255, 255, 0.015) 1px,
+    transparent 3px,
+    transparent 6px
+  );
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.mx-admin__header {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.mx-admin__eyebrow {
+  margin: 0 0 0.5rem;
+  color: #748396;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+}
+
+.mx-admin__title {
+  margin: 0;
+  color: #ffd84a;
+  font-size: clamp(1.1rem, 2vw, 1.8rem);
+  line-height: 1.1;
+  text-shadow:
+    0 0 8px rgba(255, 216, 74, 0.32),
+    0 0 18px rgba(255, 216, 74, 0.12);
+}
+
+.mx-admin__refresh {
+  cursor: pointer;
+  border: 2px solid #ffd84a;
+  background: #0f141c;
+  color: #ffd84a;
+  padding: 0.8rem 1rem;
+  font-family: inherit;
+  font-size: 0.65rem;
+  clip-path: polygon(
+    0 7px,
+    7px 7px,
+    7px 0,
+    calc(100% - 7px) 0,
+    calc(100% - 7px) 7px,
+    100% 7px,
+    100% calc(100% - 7px),
+    calc(100% - 7px) calc(100% - 7px),
+    calc(100% - 7px) 100%,
+    7px 100%,
+    7px calc(100% - 7px),
+    0 calc(100% - 7px)
+  );
+}
+
+.mx-admin__layout {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 1rem;
+}
+
+.mx-admin-panel {
+  position: relative;
+  background: linear-gradient(180deg, #10161f 0%, #0a0f16 100%);
+  border: 2px solid #2f3948;
+  padding: 1rem;
+  overflow: hidden;
+  clip-path: polygon(
+    0 10px,
+    10px 10px,
+    10px 0,
+    calc(100% - 10px) 0,
+    calc(100% - 10px) 10px,
+    100% 10px,
+    100% calc(100% - 10px),
+    calc(100% - 10px) calc(100% - 10px),
+    calc(100% - 10px) 100%,
+    10px 100%,
+    10px calc(100% - 10px),
+    0 calc(100% - 10px)
+  );
+  box-shadow:
+    inset 0 0 0 2px #0a0d12,
+    0 0 0 2px #1b2430,
+    0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+.mx-admin-panel::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 1px dashed rgba(255, 216, 74, 0.14);
+  pointer-events: none;
+}
+
+.mx-admin-panel__chrome {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  color: #718195;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.mx-admin-panel__toolbar {
+  margin-bottom: 1rem;
+}
+
+.mx-admin-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 680px;
+  overflow: auto;
+  padding-right: 0.2rem;
+}
+
+.mx-admin-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.mx-admin-list::-webkit-scrollbar-thumb {
+  background: #2d3846;
+}
+
+.mx-admin-card {
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  padding: 0.9rem;
+  background: #0d1219;
+  border: 2px solid #273240;
+  color: inherit;
+  transition: 0.2s ease;
+  clip-path: polygon(
+    0 7px,
+    7px 7px,
+    7px 0,
+    calc(100% - 7px) 0,
+    calc(100% - 7px) 7px,
+    100% 7px,
+    100% calc(100% - 7px),
+    calc(100% - 7px) calc(100% - 7px),
+    calc(100% - 7px) 100%,
+    7px 100%,
+    7px calc(100% - 7px),
+    0 calc(100% - 7px)
+  );
+}
+
+.mx-admin-card:hover {
+  border-color: #ffd84a;
+  transform: translateX(4px);
+  box-shadow: 0 0 14px rgba(255, 216, 74, 0.1);
+}
+
+.mx-admin-card--active {
+  border-color: #ffd84a;
+  box-shadow: 0 0 16px rgba(255, 216, 74, 0.16);
+}
+
+.mx-admin-card__top {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.mx-admin-card__title {
+  color: #f1f6fb;
+  font-size: 0.7rem;
+  line-height: 1.4;
+}
+
+.mx-admin-card__status {
+  color: #95ff7d;
+  font-size: 0.58rem;
+  white-space: nowrap;
+}
+
+.mx-admin-card__meta {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  color: #8391a2;
+  font-size: 0.56rem;
+}
+
+.mx-admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mx-admin-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.85rem;
+}
+
+.mx-admin-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.mx-admin-field--wide {
+  grid-column: 1 / -1;
+}
+
+.mx-admin-field label {
+  color: #8796a8;
+  font-size: 0.6rem;
+}
+
+.mx-admin-field input,
+.mx-admin-field textarea,
+.mx-admin-field select {
+  width: 100%;
+  border: 2px solid #2a3442;
+  background: #0d1219;
+  color: #edf3fa;
+  padding: 0.9rem 1rem;
+  font-family: inherit;
+  font-size: 0.65rem;
+  outline: none;
+  resize: vertical;
+  clip-path: polygon(
+    0 6px,
+    6px 6px,
+    6px 0,
+    calc(100% - 6px) 0,
+    calc(100% - 6px) 6px,
+    100% 6px,
+    100% calc(100% - 6px),
+    calc(100% - 6px) calc(100% - 6px),
+    calc(100% - 6px) 100%,
+    6px 100%,
+    6px calc(100% - 6px),
+    0 calc(100% - 6px)
+  );
+}
+
+.mx-admin-field input:focus,
+.mx-admin-field textarea:focus,
+.mx-admin-field select:focus {
+  border-color: #ffd84a;
+  box-shadow: 0 0 14px rgba(255, 216, 74, 0.12);
+}
+
+.mx-admin-check {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  background: #0d1219;
+  border: 2px solid #273240;
+  color: #dbe3ec;
+  font-size: 0.62rem;
+  clip-path: polygon(
+    0 6px,
+    6px 6px,
+    6px 0,
+    calc(100% - 6px) 0,
+    calc(100% - 6px) 6px,
+    100% 6px,
+    100% calc(100% - 6px),
+    calc(100% - 6px) calc(100% - 6px),
+    calc(100% - 6px) 100%,
+    6px 100%,
+    6px calc(100% - 6px),
+    0 calc(100% - 6px)
+  );
+}
+
+.mx-admin-check input {
+  width: 16px;
+  height: 16px;
+  accent-color: #ffd84a;
+}
+
+.mx-admin-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.mx-admin-btn {
+  cursor: pointer;
+  border: 2px solid #2e3846;
+  background: #0d1219;
+  color: #d6dce5;
+  padding: 0.9rem 1rem;
+  font-family: inherit;
+  font-size: 0.64rem;
+  transition: 0.2s ease;
+  clip-path: polygon(
+    0 6px,
+    6px 6px,
+    6px 0,
+    calc(100% - 6px) 0,
+    calc(100% - 6px) 6px,
+    100% 6px,
+    100% calc(100% - 6px),
+    calc(100% - 6px) calc(100% - 6px),
+    calc(100% - 6px) 100%,
+    6px 100%,
+    6px calc(100% - 6px),
+    0 calc(100% - 6px)
+  );
+}
+
+.mx-admin-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.mx-admin-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.mx-admin-btn--gold {
+  background: #ffd84a;
+  color: #0b0f15;
+  border-color: #ffd84a;
+  box-shadow: 0 0 16px rgba(255, 216, 74, 0.14);
+}
+
+.mx-admin-btn--danger {
+  border-color: #ff6e6e;
+  color: #ff8e8e;
+}
+
+.mx-admin-btn--danger:hover:not(:disabled) {
+  box-shadow: 0 0 14px rgba(255, 110, 110, 0.16);
+}
+
+.mx-admin-message {
+  padding: 0.9rem 1rem;
+  border: 2px solid #2a3442;
+  background: #0d1219;
+  color: #95ff7d;
+  font-size: 0.62rem;
+}
+
+.mx-admin-empty {
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #2a3441;
+  background: #0c1118;
+  color: #91a0b1;
+  text-align: center;
+  padding: 1rem;
+}
+
+@media (max-width: 1180px) {
+  .mx-admin__layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .mx-admin-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mx-admin-field--wide {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .mx-admin {
+    font-family: "VT323", "Share Tech Mono", monospace;
+  }
+
+  .mx-admin__title {
+    font-size: 1.3rem;
+  }
+
+  .mx-admin-card__title,
+  .mx-admin-field input,
+  .mx-admin-field textarea,
+  .mx-admin-field select,
+  .mx-admin-btn,
+  .mx-admin-message {
+    font-size: 0.8rem;
+  }
+}

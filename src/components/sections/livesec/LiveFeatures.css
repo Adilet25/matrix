@@ -1,0 +1,362 @@
+.liveFeatures {
+  position: relative;
+  margin-top: 28px;
+  padding: 28px;
+  border-radius: 22px;
+  overflow: hidden;
+  background: linear-gradient(180deg, #111214 0%, #0b0b0c 100%);
+  border: 3px solid #1d1d1f;
+  box-shadow:
+    0 0 0 2px #000 inset,
+    0 12px 40px rgba(0, 0, 0, 0.35);
+  image-rendering: pixelated;
+}
+
+.liveFeatures::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 24px 24px;
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.liveFeaturesHeader {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 22px;
+}
+
+.liveFeaturesLabel {
+  color: #20bf55;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  margin-bottom: 10px;
+}
+
+.liveFeaturesHeader h2 {
+  margin: 0;
+  color: #f8f8f8;
+  font-size: clamp(26px, 3vw, 42px);
+  line-height: 1.1;
+}
+
+.liveFeaturesSub {
+  margin-top: 10px;
+  color: #a9a9a9;
+  max-width: 720px;
+  line-height: 1.6;
+}
+
+.liveFeaturesGrid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 22px;
+}
+
+.liveFeaturesPanel {
+  border: 3px solid #242427;
+  background: #090909;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 2px #000 inset,
+    0 0 25px rgba(0, 159, 255, 0.08);
+}
+
+.livePanelTop {
+  display: flex;
+  gap: 8px;
+  padding: 12px 14px;
+  border-bottom: 2px solid #1b1b1d;
+  background: #121214;
+}
+
+.liveDot {
+  width: 10px;
+  height: 10px;
+  display: block;
+  box-shadow: 2px 2px 0 #000;
+}
+
+.liveDot.green {
+  background: #20bf55;
+}
+
+.liveDot.yellow {
+  background: #ffc857;
+}
+
+.liveDot.red {
+  background: #ff4d4f;
+}
+
+.livePanelScreen {
+  position: relative;
+  min-height: 360px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.livePanelScan {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.04) 0px,
+    rgba(255, 255, 255, 0.04) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  opacity: 0.18;
+}
+
+.livePanelCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+.liveCoreBox {
+  width: 180px;
+  height: 180px;
+  border: 3px solid #1f3b29;
+  background: #101411;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 0 0 3px #000 inset,
+    0 0 24px rgba(32, 191, 85, 0.12);
+  animation: corePulse 2.6s infinite steps(12);
+}
+
+.liveCoreInner {
+  width: 90px;
+  height: 90px;
+  background:
+    linear-gradient(45deg, #20bf55 25%, transparent 25%),
+    linear-gradient(-45deg, #20bf55 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #20bf55 75%),
+    linear-gradient(-45deg, transparent 75%, #20bf55 75%);
+  background-size: 18px 18px;
+  background-position:
+    0 0,
+    0 9px,
+    9px -9px,
+    -9px 0px;
+  box-shadow:
+    0 0 20px rgba(32, 191, 85, 0.2),
+    0 0 0 2px #000 inset;
+  animation: innerRotate 6s linear infinite;
+}
+
+.liveBars {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.liveBar span {
+  display: inline-block;
+  margin-bottom: 6px;
+  color: #cfcfcf;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+}
+
+.barLine {
+  width: 100%;
+  height: 16px;
+  background: #131315;
+  border: 2px solid #242427;
+  box-shadow: 2px 2px 0 #000;
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  animation: barMove 2s infinite steps(16);
+}
+
+.greenFill {
+  width: 82%;
+  background: repeating-linear-gradient(
+    90deg,
+    #20bf55 0 12px,
+    #167b38 12px 24px
+  );
+}
+
+.blueFill {
+  width: 67%;
+  background: repeating-linear-gradient(
+    90deg,
+    #009fff 0 12px,
+    #0e5e92 12px 24px
+  );
+}
+
+.redFill {
+  width: 73%;
+  background: repeating-linear-gradient(
+    90deg,
+    #ff4d4f 0 12px,
+    #8e2b2c 12px 24px
+  );
+}
+
+.liveFeaturesCards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.liveCard {
+  background: #121214;
+  border: 2px solid #242427;
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 0 0 2px #000 inset;
+  transition:
+    transform 0.16s ease,
+    box-shadow 0.16s ease,
+    border-color 0.16s ease;
+  cursor: default;
+}
+
+.liveCard:hover {
+  transform: translateY(-3px);
+}
+
+.liveCard.green:hover {
+  border-color: #20bf55;
+  box-shadow:
+    0 0 18px rgba(32, 191, 85, 0.12),
+    0 0 0 2px #000 inset;
+}
+
+.liveCard.blue:hover {
+  border-color: #009fff;
+  box-shadow:
+    0 0 18px rgba(0, 159, 255, 0.12),
+    0 0 0 2px #000 inset;
+}
+
+.liveCard.yellow:hover {
+  border-color: #ffc857;
+  box-shadow:
+    0 0 18px rgba(255, 200, 87, 0.12),
+    0 0 0 2px #000 inset;
+}
+
+.liveCard.red:hover {
+  border-color: #ff4d4f;
+  box-shadow:
+    0 0 18px rgba(255, 77, 79, 0.12),
+    0 0 0 2px #000 inset;
+}
+
+.liveCardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.liveCardBadge {
+  display: inline-block;
+  padding: 6px 8px;
+  border: 2px solid #000;
+  box-shadow: 2px 2px 0 #000;
+  font-size: 11px;
+}
+
+.liveCardBadge.green {
+  background: #164d28;
+  color: #d6ffe4;
+}
+
+.liveCardBadge.blue {
+  background: #10354d;
+  color: #d7f3ff;
+}
+
+.liveCardBadge.yellow {
+  background: #5e4913;
+  color: #fff0c4;
+}
+
+.liveCardBadge.red {
+  background: #5a1b1b;
+  color: #ffe0e0;
+}
+
+.liveCardArrow {
+  color: #8d8d8d;
+  font-size: 18px;
+}
+
+.liveCard h3 {
+  margin: 0 0 10px;
+  color: #fff;
+  font-size: 18px;
+}
+
+.liveCard p {
+  margin: 0;
+  color: #b8b8b8;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+@keyframes corePulse {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.04);
+    filter: brightness(1.12);
+  }
+}
+
+@keyframes innerRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes barMove {
+  0%,
+  100% {
+    filter: brightness(0.95);
+  }
+  50% {
+    filter: brightness(1.15);
+  }
+}
+
+@media (max-width: 980px) {
+  .liveFeaturesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .liveFeaturesCards {
+    grid-template-columns: 1fr;
+  }
+}
