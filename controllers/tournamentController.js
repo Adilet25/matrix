@@ -201,75 +201,178 @@ const generateBracket = async (req, res) => {
     }
 
     const bracketSize = 2 ** Math.ceil(Math.log2(participants.length));
+    const roundsCount = Math.log2(bracketSize);
+
+    const rounds = [];
+
+    for (let round = 1; round <= roundsCount; round++) {
+      const matchesInRound = bracketSize / 2 ** round;
+      const roundMatches = [];
+
+      for (let matchNumber = 1; matchNumber <= matchesInRound; matchNumber++) {
+        const match = await TournamentMatch.create({
+          tournament: tournament._id,
+          round,
+          matchNumber,
+          participant1: null,
+          participant2: null,
+          score1: 0,
+          score2: 0,
+          winner: null,
+          status: "PENDING",
+          nextMatch: null,
+        });
+
+        roundMatches.push(match);
+      }
+
+      rounds.push(roundMatches);
+    }
+
+    for (let roundIndex = 0; roundIndex < rounds.length - 1; roundIndex++) {
+      const currentRound = rounds[roundIndex];
+      const nextRound = rounds[roundIndex + 1];
+
+      for (let i = 0; i < currentRound.length; i++) {
+        const nextMatchIndex = Math.floor(i / 2);
+        currentRound[i].nextMatch = nextRound[nextMatchIndex]._id;
+        await currentRound[i].save();
+      }
+    }
+
+    const firstRound = rounds[0];
     const paddedParticipants = [...participants];
 
     while (paddedParticipants.length < bracketSize) {
       paddedParticipants.push(null);
     }
 
-    const firstRoundMatches = [];
+    for (let i = 0; i < firstRound.length; i++) {
+      const p1 = paddedParticipants[i * 2];
+      const p2 = paddedParticipants[i * 2 + 1];
 
-    for (let i = 0; i < paddedParticipants.length; i += 2) {
-      const participant1 = paddedParticipants[i];
-      const participant2 = paddedParticipants[i + 1];
+      firstRound[i].participant1 = p1 ? p1._id : null;
+      firstRound[i].participant2 = p2 ? p2._id : null;
 
-      let winner = null;
-      let status = "PENDING";
-
-      if (participant1 && !participant2) {
-        winner = participant1._id;
-        status = "DONE";
-      } else if (!participant1 && participant2) {
-        winner = participant2._id;
-        status = "DONE";
+      if (p1 && p2) {
+        firstRound[i].status = "PENDING";
+      } else if (p1 || p2) {
+        firstRound[i].status = "DONE";
+        firstRound[i].winner = p1 ? p1._id : p2._id;
+      } else {
+        firstRound[i].status = "PENDING";
       }
 
-      const match = await TournamentMatch.create({
-        tournament: tournament._id,
-        round: 1,
-        matchNumber: i / 2 + 1,
-        participant1: participant1?._id || null,
-        participant2: participant2?._id || null,
-        winner,
-        status,
-      });
-
-      firstRoundMatches.push(match);
+      await firstRound[i].save();
     }
 
-    let currentRoundMatches = firstRoundMatches;
-    let round = 2;
+    const propagateByes = async () => {
+      let changed = true;
 
-    while (currentRoundMatches.length > 1) {
-      const nextRoundMatches = [];
+      while (changed) {
+        changed = false;
 
-      for (let i = 0; i < currentRoundMatches.length; i += 2) {
-        const nextMatch = await TournamentMatch.create({
-          tournament: tournament._id,
-          round,
-          matchNumber: i / 2 + 1,
-          status: "PENDING",
-        });
+        for (let roundIndex = 0; roundIndex < rounds.length; roundIndex++) {
+          const currentRound = rounds[roundIndex];
 
-        currentRoundMatches[i].nextMatch = nextMatch._id;
-        await currentRoundMatches[i].save();
+          for (
+            let matchIndex = 0;
+            matchIndex < currentRound.length;
+            matchIndex++
+          ) {
+            const match = await TournamentMatch.findById(
+              currentRound[matchIndex]._id,
+            );
 
-        if (currentRoundMatches[i + 1]) {
-          currentRoundMatches[i + 1].nextMatch = nextMatch._id;
-          await currentRoundMatches[i + 1].save();
+            if (!match) continue;
+
+            if (match.winner && match.nextMatch) {
+              const nextMatch = await TournamentMatch.findById(match.nextMatch);
+
+              if (nextMatch) {
+                const isLeftSource = matchIndex % 2 === 0;
+
+                if (isLeftSource && !nextMatch.participant1) {
+                  nextMatch.participant1 = match.winner;
+                  await nextMatch.save();
+                  changed = true;
+                }
+
+                if (!isLeftSource && !nextMatch.participant2) {
+                  nextMatch.participant2 = match.winner;
+                  await nextMatch.save();
+                  changed = true;
+                }
+              }
+            }
+          }
         }
 
-        nextRoundMatches.push(nextMatch);
-      }
+        for (let roundIndex = 1; roundIndex < rounds.length; roundIndex++) {
+          for (
+            let matchIndex = 0;
+            matchIndex < rounds[roundIndex].length;
+            matchIndex++
+          ) {
+            const match = await TournamentMatch.findById(
+              rounds[roundIndex][matchIndex]._id,
+            );
 
-      currentRoundMatches = nextRoundMatches;
-      round += 1;
+            if (!match) continue;
+            if (match.winner) continue;
+
+            const hasP1 = !!match.participant1;
+            const hasP2 = !!match.participant2;
+
+            if (hasP1 && !hasP2) {
+              match.winner = match.participant1;
+              match.status = "DONE";
+              await match.save();
+              changed = true;
+            } else if (!hasP1 && hasP2) {
+              match.winner = match.participant2;
+              match.status = "DONE";
+              await match.save();
+              changed = true;
+            }
+          }
+        }
+      }
+    };
+
+    await propagateByes();
+
+    const finalRound = rounds[rounds.length - 1];
+    const finalMatch = await TournamentMatch.findById(finalRound[0]._id);
+
+    if (finalMatch && finalMatch.winner) {
+      tournament.status = "FINISHED";
+      await tournament.save();
+
+      await TournamentParticipant.findByIdAndUpdate(finalMatch.winner, {
+        status: "WINNER",
+      });
+
+      await TournamentParticipant.updateMany(
+        {
+          tournament: tournament._id,
+          _id: { $ne: finalMatch.winner },
+          status: { $ne: "WINNER" },
+        },
+        {
+          $set: { status: "ELIMINATED" },
+        },
+      );
+    } else {
+      tournament.status = "LIVE";
+      await tournament.save();
     }
 
-    tournament.status = "LIVE";
-    await tournament.save();
-
-    return res.json({ message: "Bracket generated successfully" });
+    return res.json({
+      message: "Bracket generated successfully",
+      bracketSize,
+      rounds: roundsCount,
+    });
   } catch (error) {
     console.error("generateBracket error:", error);
     return res.status(500).json({ message: "Server error" });
