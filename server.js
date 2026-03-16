@@ -42,7 +42,9 @@ const topPlayersRoutes = require("./routes/topPlayers");
 const playerStatsRoutes = require("./routes/playerStats");
 const tournamentRoutes = require("./routes/tournamentRoutes.js");
 const tournamentAdminRoutes = require("./routes/tournamentAdminRoutes");
+const playerProfileRoutes = require("./routes/playerProfileRoutes");
 
+app.use("/api/players", playerProfileRoutes);
 app.use("/api/admin/tournaments", tournamentAdminRoutes);
 app.use("/api/tournaments", tournamentRoutes);
 app.use("/api/player-stats", playerStatsRoutes);
