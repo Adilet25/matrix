@@ -43,13 +43,11 @@ const Navbar = () => {
   const { user, logout, apiUrl } = useAuth();
 
   const handleLogin = () => {
-    const isMobile = window.innerWidth <= 768;
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
     if (isMobile) {
-      // телефон → новая вкладка
-      window.open(`${apiUrl}/auth/faceit/login`, "_blank");
+      window.location.href = `${apiUrl}/auth/faceit/login`;
     } else {
-      // компьютер → popup
       window.open(
         `${apiUrl}/auth/faceit/login`,
         "faceitLogin",
