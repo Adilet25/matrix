@@ -169,7 +169,7 @@ const Navbar = () => {
                     >
                       <MenuItem
                         onClick={() => {
-                          navigate(`/profile/${user.nickname}`);
+                          navigate(`/player/${user.nickname}`);
                           handleClose();
                         }}
                       >
