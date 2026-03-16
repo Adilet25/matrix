@@ -43,13 +43,20 @@ const Navbar = () => {
   const { user, logout, apiUrl } = useAuth();
 
   const handleLogin = () => {
-    window.open(
-      `${apiUrl}/auth/faceit/login`,
-      "faceitLogin",
-      "width=500,height=700",
-    );
-  };
+    const isMobile = window.innerWidth <= 768;
 
+    if (isMobile) {
+      // телефон → новая вкладка
+      window.open(`${apiUrl}/auth/faceit/login`, "_blank");
+    } else {
+      // компьютер → popup
+      window.open(
+        `${apiUrl}/auth/faceit/login`,
+        "faceitLogin",
+        "width=600,height=700",
+      );
+    }
+  };
   return (
     <div className="mainBlock">
       <img
