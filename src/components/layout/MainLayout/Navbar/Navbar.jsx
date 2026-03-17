@@ -41,7 +41,7 @@ const Navbar = () => {
     setOpen(newOpen);
   };
   const { user, logout, apiUrl } = useAuth();
-  const openFaceitLogin = () => {
+  const handleLogin = () => {
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
     if (isMobile) {
