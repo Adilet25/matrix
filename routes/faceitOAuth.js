@@ -33,7 +33,7 @@ function buildAuthorizeUrl(state, codeChallenge) {
   return `https://accounts.faceit.com/oauth/authorize?${params.toString()}`;
 }
 
-// 1) redirect to FACEIT login
+// 🔐 LOGIN
 router.get("/login", (req, res) => {
   const state = crypto.randomBytes(16).toString("hex");
   const codeVerifier = generateCodeVerifier();
@@ -45,24 +45,15 @@ router.get("/login", (req, res) => {
   res.redirect(buildAuthorizeUrl(state, codeChallenge));
 });
 
-// 2) callback after successful login
+// 🔁 CALLBACK
 router.get("/callback", async (req, res) => {
   const { code, state, error } = req.query;
 
-  if (error) {
-    return res.status(400).json({ error });
-  }
+  if (error) return res.status(400).json({ error });
+  if (!code) return res.status(400).json({ error: "No code" });
 
-  if (!code) {
-    return res.status(400).json({ error: "No authorization code received" });
-  }
-
-  if (!state || state !== req.session.faceitState) {
+  if (state !== req.session.faceitState) {
     return res.status(400).json({ error: "Invalid state" });
-  }
-
-  if (!req.session.faceitCodeVerifier) {
-    return res.status(400).json({ error: "Missing PKCE code verifier" });
   }
 
   try {
@@ -77,8 +68,7 @@ router.get("/callback", async (req, res) => {
       code_verifier: req.session.faceitCodeVerifier,
     });
 
-    // exchange code -> access token
-    const tokenResponse = await axios.post(
+    const tokenRes = await axios.post(
       "https://api.faceit.com/auth/v1/oauth/token",
       tokenParams.toString(),
       {
@@ -89,27 +79,18 @@ router.get("/callback", async (req, res) => {
       },
     );
 
-    const { access_token } = tokenResponse.data;
+    const access_token = tokenRes.data.access_token;
 
-    // get OpenID userinfo
-    const userInfoResponse = await axios.get(
+    const userInfo = await axios.get(
       "https://api.faceit.com/auth/v1/resources/userinfo",
       {
-        headers: {
-          Authorization: `Bearer ${access_token}`,
-        },
+        headers: { Authorization: `Bearer ${access_token}` },
       },
     );
 
-    const userInfo = userInfoResponse.data;
-    const faceitId = userInfo.sub;
+    const faceitId = userInfo.data.sub;
 
-    if (!faceitId) {
-      return res.status(400).json({ error: "Faceit user id not found" });
-    }
-
-    // get full player data via FACEIT Data API
-    const playerResponse = await axios.get(
+    const playerRes = await axios.get(
       `https://open.faceit.com/data/v4/players/${faceitId}`,
       {
         headers: {
@@ -118,7 +99,7 @@ router.get("/callback", async (req, res) => {
       },
     );
 
-    const player = playerResponse.data;
+    const player = playerRes.data;
     const cs2 = player.games?.cs2 || player.games?.csgo || {};
 
     let user = await User.findOne({ faceitId });
@@ -126,63 +107,66 @@ router.get("/callback", async (req, res) => {
     if (!user) {
       user = new User({
         faceitId,
-        nickname: player.nickname || "FaceitUser",
-        avatar: player.avatar || "",
+        nickname: player.nickname,
+        avatar: player.avatar,
         elo: cs2.faceit_elo || 0,
         level: cs2.skill_level || 0,
         country: (player.country || "unknown").toLowerCase(),
       });
     } else {
-      user.nickname = player.nickname || user.nickname;
-      user.avatar = player.avatar || user.avatar;
-      user.elo = cs2.faceit_elo || user.elo || 0;
-      user.level = cs2.skill_level || user.level || 0;
-      user.country = (
-        player.country ||
-        user.country ||
-        "unknown"
-      ).toLowerCase();
+      user.nickname = player.nickname;
+      user.avatar = player.avatar;
+      user.elo = cs2.faceit_elo || 0;
+      user.level = cs2.skill_level || 0;
+      user.country = (player.country || "unknown").toLowerCase();
     }
 
     await user.save();
 
-    req.session.userId = user._id;
+    // 🔥 ВАЖНО: создаем TOKEN вместо reliance на cookie
+    const token = Buffer.from(user._id.toString()).toString("base64");
 
-    delete req.session.faceitState;
-    delete req.session.faceitCodeVerifier;
-
-    req.session.save(() => {
-      res.redirect(
-        `${process.env.FRONTEND_URL}/auth/success?nickname=${encodeURIComponent(user.nickname)}`,
-      );
-    });
+    return res.redirect(
+      `${process.env.FRONTEND_URL}/auth/success?token=${token}`,
+    );
   } catch (err) {
-    console.log("FACEIT OAuth error:", err.response?.data || err.message);
-    return res.status(500).json({
-      error: err.response?.data || err.message,
-    });
+    console.log(err.response?.data || err.message);
+    res.status(500).json({ error: "OAuth failed" });
   }
 });
 
-router.get("/me", async (req, res) => {
-  if (!req.session.userId) {
-    return res.status(401).json({ error: "Not authenticated" });
-  }
+// 🔐 СОЗДАНИЕ СЕССИИ ПО TOKEN
+router.post("/session", async (req, res) => {
+  const { token } = req.body;
 
   try {
-    const user = await User.findById(req.session.userId);
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-    return res.json(user);
-  } catch (err) {
-    return res.status(500).json({ error: err.message });
+    const userId = Buffer.from(token, "base64").toString("utf-8");
+
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ error: "User not found" });
+
+    req.session.userId = user._id;
+
+    res.json({ success: true });
+  } catch {
+    res.status(400).json({ error: "Invalid token" });
   }
 });
 
+// 👤 ME
+router.get("/me", async (req, res) => {
+  if (!req.session.userId) {
+    return res.status(401).json({ error: "Not auth" });
+  }
+
+  const user = await User.findById(req.session.userId);
+  res.json(user);
+});
+
+// 🚪 LOGOUT
 router.post("/logout", (req, res) => {
   req.session.destroy(() => {
-    res.json({ message: "Logged out" });
+    res.json({ ok: true });
   });
 });
 
