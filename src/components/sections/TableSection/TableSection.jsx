@@ -23,11 +23,17 @@ const TableSection = () => {
   const navigate = useNavigate();
 
   const openFaceitLogin = () => {
-    window.open(
-      `${apiUrl}/auth/faceit/login`,
-      "faceitLogin",
-      "width=500,height=700",
-    );
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+    if (isMobile) {
+      window.location.href = `${apiUrl}/auth/faceit/login`;
+    } else {
+      window.open(
+        `${apiUrl}/auth/faceit/login`,
+        "faceitLogin",
+        "width=600,height=700",
+      );
+    }
   };
 
   useEffect(() => {
